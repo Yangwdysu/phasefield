@@ -1,7 +1,7 @@
 #include"cuda_runtime.h"
 #include <iostream>
 //#include <helper_cuda.h>
-#include <helper_functions.h> // helper utility functions 
+//#include <helper_functions.h> // helper utility functions 
 #include"device_functions.h"
 #include "cuda.h"
 #include "HybridMultiPhaseFluid.h"

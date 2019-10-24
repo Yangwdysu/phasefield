@@ -79,10 +79,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\..\lib\x64\</OutDir>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\..\lib\x64\Release\</OutDir>
+    <IncludePath>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
