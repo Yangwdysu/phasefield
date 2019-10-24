@@ -1,0 +1,94 @@
+﻿  Compiling CUDA source file HybridMultiPhaseFluid.cu...
+  
+  F:\vs_project\tste4\MFDynamics_2D_Tracking\build\App_SPHMultiPhaseFlow>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -x cu  -I..\..\extern -I..\..\src\ -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_USE_MATH_DEFINES -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Fdx64\Debug\vc140.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\HybridMultiPhaseFluid.cu.obj "F:\vs_project\tste4\MFDynamics_2D_Tracking\build\App_SPHMultiPhaseFlow\HybridMultiPhaseFluid.cu" 
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_double_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(107): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(108): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(109): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(109): warning : pointless comparison of unsigned integer with zero
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(156): warning : variable "pid" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(157): warning : variable "num_air" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(166): warning : variable "index" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(187): warning : variable "index" was set but never used
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(320): warning : variable "dx" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(321): warning : variable "T" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(531): warning : variable "norm" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(582): warning : variable "idx" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(576): warning : variable "ceo2" was declared but never referenced
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(1294): warning : variable "S" was declared but never referenced
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Array.h(61): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Array.h(61): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Array.h(61): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Array.h(61): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Array.h(61): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(85): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(85): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(132): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(157): warning : calling a __host__ function from a __host__ __device__ function is not allowed
+CUDACOMPILE : warning : calling a __host__ function from a __host__ __device__ function is not allowed
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(132): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(157): warning : calling a __host__ function from a __host__ __device__ function is not allowed
+CUDACOMPILE : warning : calling a __host__ function from a __host__ __device__ function is not allowed
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(132): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(157): warning : calling a __host__ function("mfd::Grid<(int)3, float> ::Grid") from a __host__ __device__ function("mfd::Grid<(int)3, float> ::Swap") is not allowed
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(160): warning : calling a __host__ function("mfd::Grid<(int)3, float> ::~Grid") from a __host__ __device__ function("mfd::Grid<(int)3, float> ::Swap") is not allowed
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(157): warning : calling a __host__ function("mfd::Grid<(int)3, double> ::Grid") from a __host__ __device__ function("mfd::Grid<(int)3, double> ::Swap") is not allowed
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(160): warning : calling a __host__ function("mfd::Grid<(int)3, double> ::~Grid") from a __host__ __device__ function("mfd::Grid<(int)3, double> ::Swap") is not allowed
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_double_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Array.h(61): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(85): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdMath/DataStructure/Grid.h(132): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(107): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(108): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(109): warning : pointless comparison of unsigned integer with zero
+F:\vs_project\tste4\MFDynamics_2D_Tracking\src\MfdIO/Image.h(109): warning : pointless comparison of unsigned integer with zero
+  HybridMultiPhaseFluid.cu
+F:/vs_project/tste4/MFDynamics_2D_Tracking/build/App_SPHMultiPhaseFlow/HybridMultiPhaseFluid.cu(1571): warning C4267: “参数”: 从“size_t”转换到“const int”，可能丢失数据
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  App_SPHMultiPhaseFlow.vcxproj -> F:\vs_project\tste4\MFDynamics_2D_Tracking\build\App_SPHMultiPhaseFlow\..\..\bin\App_SPHMultiPhaseFlowDebug.exe
+  App_SPHMultiPhaseFlow.vcxproj -> ..\..\bin\App_SPHMultiPhaseFlowDebug.pdb (Full PDB)

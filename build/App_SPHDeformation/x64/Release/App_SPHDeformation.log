@@ -1,0 +1,9 @@
+﻿  stdafx.cpp
+  DeformableSolid.cpp
+..\..\src\MfdNumericalMethod\SPH\DeformableSolid.cpp(19): warning C4305: “=”: 从“double”到“float”截断
+  main.cpp
+  正在生成代码
+  All 722 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  App_SPHDeformation.vcxproj -> F:\vs_project\tste4\MFDynamics_2D_Tracking\build\App_SPHDeformation\..\..\bin\App_SPHDeformation.exe
+  App_SPHDeformation.vcxproj -> ..\..\bin\App_SPHDeformation.pdb (Full PDB)

@@ -1,0 +1,13 @@
+syntax: glob
+*.ipdb
+*.iobj
+*.exe
+*.pdb
+*.tlog
+*.ilk
+*.ipch
+*.log
+*.obj
+*.deps
+*.idb
+*.lastbuildstate

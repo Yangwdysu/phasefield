@@ -1,0 +1,15 @@
+﻿  Boundary.cpp
+  BasicSPH.cpp
+  Config.cpp
+..\..\src\MfdNumericalMethod\SPH\Config.cpp(156): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  Particle.cpp
+  SinglePhaseFluid.cpp
+..\..\src\MfdNumericalMethod\SPH\SinglePhaseFluid.cpp(461): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+..\..\src\MfdNumericalMethod\SPH\SinglePhaseFluid.cpp(463): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+..\..\src\MfdNumericalMethod\SPH\SinglePhaseFluid.cpp(464): warning C4305: “/=”: 从“double”到“float”截断
+..\..\src\MfdNumericalMethod\SPH\SinglePhaseFluid.cpp(476): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+..\..\src\MfdNumericalMethod\SPH\SinglePhaseFluid.cpp(478): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+..\..\src\MfdNumericalMethod\SPH\SinglePhaseFluid.cpp(479): warning C4305: “/=”: 从“double”到“float”截断
+  UniformGridQuery.cpp
+..\..\src\MfdNumericalMethod\UniformGridQuery.cpp(218): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  MfdNumericalMethod.vcxproj -> F:\vs_project\tste4\MFDynamics_2D_Tracking\build\MfdNumericalMethod\..\..\lib\x64\Release\MfdNumericalMethod.lib
