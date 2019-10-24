@@ -6,7 +6,7 @@
 #include "MfdMath/Common.h"
 #include "MfdMath/StaticAssert.h"
 #include <assert.h>
-#include "vector_types.h"
+#include <vector_types.h>
 using namespace std;
 namespace mfd {
 

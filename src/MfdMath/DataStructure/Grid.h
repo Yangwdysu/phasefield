@@ -5,9 +5,10 @@
 #include "MfdMath/StaticAssert.h"
 #include "vector_types.h"
 #include "cuda.h"
-#include"cuda_runtime.h"
-#include <helper_cuda.h>
+#include <cuda_runtime.h>
+
 namespace mfd {
+
 
 	template<int dim, typename T>
 	class Grid
@@ -169,17 +170,17 @@ namespace mfd {
 
 		void CopyFromHostToDevice(Grid<3, T>& g)
 		{
-			checkCudaErrors(cudaMemcpy(data, g.data, elementCount * sizeof(T), cudaMemcpyHostToDevice));
+			(cudaMemcpy(data, g.data, elementCount * sizeof(T), cudaMemcpyHostToDevice));
 		}
 
 		void CopyFromDeviceToHost(Grid<3, T>& g)
 		{
-			checkCudaErrors(cudaMemcpy(g.data, data, elementCount * sizeof(T), cudaMemcpyDeviceToHost));
+			(cudaMemcpy(g.data, data, elementCount * sizeof(T), cudaMemcpyDeviceToHost));
 		}
 
 		void CopyFromDeviceToDevice(Grid<3, T>& g)
 		{
-			checkCudaErrors(cudaMemcpy(data, g.data, elementCount * sizeof(T), cudaMemcpyDeviceToDevice));
+			(cudaMemcpy(data, g.data, elementCount * sizeof(T), cudaMemcpyDeviceToDevice));
 		}
 
 		void cudaSetSpace(int _nx, int _ny, int _nz)
@@ -191,17 +192,17 @@ namespace mfd {
 
 		void cudaClear()
 		{
-			checkCudaErrors(cudaMemset(data, 0, elementCount * sizeof(T)));
+			(cudaMemset(data, 0, elementCount * sizeof(T)));
 		}
 
 		void cudaAllocate()
 		{
-			checkCudaErrors(cudaMalloc(&data, elementCount * sizeof(T)));
+			(cudaMalloc(&data, elementCount * sizeof(T)));
 		}
 
 		void cudaRelease()
 		{
-			checkCudaErrors(cudaFree(data));
+			(cudaFree(data));
 		}
 	public:
 		int nx;

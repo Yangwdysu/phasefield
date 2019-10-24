@@ -77,7 +77,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\bin\</OutDir>
     <TargetName>$(ProjectName)Debug</TargetName>
-    <IncludePath>..\..\extern\Eigen;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\extern\Eigen;..\..\extern\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
