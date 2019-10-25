@@ -114,7 +114,7 @@ namespace mfd {
 		void InterpolateVelocity(Grid3f vel_u, Grid3f vel_v, Grid3f vel_w, float dt);
 		void ApplyGravityForce(Grid3f vel_u, Grid3f vel_v, Grid3f vel_w, Grid3f mass, float dt);
 		void PrepareForProjection(GridCoef coefMatrix, Grid3f RHS, Grid3f vel_u, Grid3f vel_v, Grid3f vel_w,Grid3f mass, float dt);
-		void Projection(Grid3f pressure, Grid3f Host_dataP,Grid3f buf, GridCoef coefMatrix, Grid3f RHS, int numIter, float dt);
+		void Projection(Grid3f pressure, GridCoef coefMatrix, Grid3f RHS, int numIter, float dt);
 		void UpdateVelocity(Grid3f vel_u, Grid3f vel_v, Grid3f vel_w,Grid3f press, Grid3f mass_host, float dt);
 		void AdvectionVelocity(GridV3f vel, Grid3f vel_u, Grid3f vel_v, Grid3f vel_w, float dt);
 
@@ -133,50 +133,43 @@ namespace mfd {
 	public:
 		
 		//ApplyGravity
-		Grid3f vel_gu;
-		Grid3f vel_gv;
-		Grid3f vel_gw;
+		Grid3f D_Gravity_velu;
+		Grid3f D_Gravity_velv;
+		Grid3f D_Gravity_velw;
+
+		//Advection
+		Grid3f D_Advection_velu;
+		Grid3f D_Advection_velv;
+		Grid3f D_Advection_velw;
+		GridV3f D_Advection_uvw;
+		GridV3f D_Advection_uvw1;
+
+		//Divergence
+		Grid3f D_Divergence_velu;
+		Grid3f D_Divergence_velv;
+		Grid3f D_Divergence_velw;
+		Grid3f D_Divergence_mass;
+		Grid3f D_Divergence_RHS;
+		GridCoef D_Divergence_coefMatrix;
 		
-				//solve pressure
-		GridCoef DevcoefMatrix;
-		Grid3f DevRHS;
-		Grid3f Devmass;
-		Grid3f Div_velu;
-		Grid3f Div_velv;
-		Grid3f Div_velw;
-
-		//advection
-		Grid3f vel_du;
-		Grid3f vel_dv;
-		Grid3f vel_dw;
-		GridV3f vel_d;
-		GridV3f vel;
-
-
-		GridCoef Projection_coefMatrix;
-		Grid3f Projection_RHS;
-		Grid3f Projection_pressure;
-		Grid3f Projection_buf;
+		//Projection
 		Grid3f temp;
+		Grid3f D_Projection_RHS;
+		Grid3f D_Projection_buf;
+		Grid3f D_Projection_pressure;
+		GridCoef D_Projection_coefMatrix;
 
-		//updata velecity
-		Grid3f vel_uu;
-		Grid3f vel_uv;
-		Grid3f vel_uw;
-		Grid3f Updatamass;
-		Grid3f Updatapressure;
+		//Updata velecity
+		Grid3f D_Updata_velu;
+		Grid3f D_Updata_velv;
+		Grid3f D_Updata_velw;
+		Grid3f D_Updatamass;
+		Grid3f D_Updatapressure;
+
 
 		Grid3f H_buf;
-
-
-
-
 		Grid3f Devmass1;
-
-
-
 		Grid3f Host_pressure;
-	
 		GridCoef coefMatrix;
 		Grid3f RHS;
 		int numIter;

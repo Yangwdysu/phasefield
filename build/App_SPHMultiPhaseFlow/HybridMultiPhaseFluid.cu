@@ -336,7 +336,7 @@ namespace mfd {
 			ApplyGravityForce(velHost_u, velHost_v, velHost_w, massGrid_phase[0], substep);
 			InterpolateVelocity(velHost_u, velHost_v, velHost_w, substep);
 			PrepareForProjection(coefMatrix, RHS, velHost_u, velHost_v, velHost_w, massGrid_phase[0], substep);
-			Projection(Host_pressure, Host_dataP,H_buf,coefMatrix, RHS, 30, substep);
+			Projection(Host_pressure,coefMatrix, RHS, 30, substep);
 			UpdateVelocity(velHost_u, velHost_v, velHost_w, Host_pressure, massGrid_phase[0], substep);
 			
 			//float pd;
@@ -886,42 +886,38 @@ namespace mfd {
 	{
 		/*mass.cudaSetSpace(nx, ny, nz);*/
 
-		vel_gu.cudaSetSpace(nx + 1, ny, nz);
-		vel_gv.cudaSetSpace(nx, ny + 1, nz);
-		vel_gw.cudaSetSpace(nx, ny, nz + 1);
+		D_Gravity_velu.cudaSetSpace(nx + 1, ny, nz);
+		D_Gravity_velv.cudaSetSpace(nx, ny + 1, nz);
+		D_Gravity_velw.cudaSetSpace(nx, ny, nz + 1);
 
-
-
-		//advection
-		vel_du.cudaSetSpace(nx + 1, ny, nz);
-		vel_dv.cudaSetSpace(nx, ny + 1, nz);
-		vel_dw.cudaSetSpace(nx, ny, nz + 1);
-		vel.cudaSetSpace(nx, ny, nz);
-		vel_d.cudaSetSpace(nx, ny, nz);
-
+		//Advection
+		D_Advection_velu.cudaSetSpace(nx + 1, ny, nz);
+		D_Advection_velv.cudaSetSpace(nx, ny + 1, nz);
+		D_Advection_velw.cudaSetSpace(nx, ny, nz + 1);
+		D_Advection_uvw.cudaSetSpace(nx, ny, nz);
+		D_Advection_uvw1.cudaSetSpace(nx, ny, nz);
 
 		//solve pressure
-		DevcoefMatrix.cudaSetSpace(nx, ny, nz);
-		DevRHS.cudaSetSpace(nx, ny, nz);
-		Devmass.cudaSetSpace(nx, ny, nz);
-		Div_velu.cudaSetSpace(nx + 1, ny, nz);
-		Div_velv.cudaSetSpace(nx, ny + 1, nz);
-		Div_velw.cudaSetSpace(nx, ny, nz + 1);
+		D_Divergence_velu.cudaSetSpace(nx + 1, ny, nz);
+		D_Divergence_velv.cudaSetSpace(nx, ny + 1, nz);
+		D_Divergence_velw.cudaSetSpace(nx, ny, nz + 1);
+		D_Divergence_coefMatrix.cudaSetSpace(nx, ny, nz);
+		D_Divergence_RHS.cudaSetSpace(nx, ny, nz);
+		D_Divergence_mass.cudaSetSpace(nx, ny, nz);
 
-		//updataVelecity
-		vel_uu.cudaSetSpace(nx + 1, ny, nz);
-		vel_uv.cudaSetSpace(nx, ny + 1, nz);
-		vel_uw.cudaSetSpace(nx, ny, nz + 1);
-		Updatamass.cudaSetSpace(nx, ny, nz);
-		Updatapressure.cudaSetSpace(nx, ny, nz);
-
-		//Grid3f buf;
-		//buf.SetSpace(nx, ny, nz);
+		//Projection
 		temp.cudaSetSpace(nx, ny, nz);
-		Projection_coefMatrix.cudaSetSpace(nx, ny, nz);
-		Projection_RHS.cudaSetSpace(nx, ny, nz);
-		Projection_pressure.cudaSetSpace(nx, ny, nz);
-		Projection_buf.cudaSetSpace(nx, ny, nz);
+		D_Projection_RHS.cudaSetSpace(nx, ny, nz);
+		D_Projection_buf.cudaSetSpace(nx, ny, nz);
+		D_Projection_pressure.cudaSetSpace(nx, ny, nz);
+		D_Projection_coefMatrix.cudaSetSpace(nx, ny, nz);
+		
+		//updataVelecity
+		D_Updata_velu.cudaSetSpace(nx + 1, ny, nz);
+		D_Updata_velv.cudaSetSpace(nx, ny + 1, nz);
+		D_Updata_velw.cudaSetSpace(nx, ny, nz + 1);
+		D_Updatamass.cudaSetSpace(nx, ny, nz);
+		D_Updatapressure.cudaSetSpace(nx, ny, nz);
 
 		cudaMalloc((void**)&dnGrid, dsize * sizeof(float3));
 		device_vel_u.cudaSetSpace(nx + 1, ny, nz);
@@ -1060,7 +1056,7 @@ namespace mfd {
 	/*-----------------------------------------------------------------------------*/
 	/*-------------------------------ApplyGravityForce---------------------------- */
 	/*-----------------------------------------------------------------------------*/
-	__global__ void K_ApplyGravityForce(Grid3f vel_ku, Grid3f vel_kv, Grid3f vel_kw, int nx, int ny, int nz, float dt)
+	__global__ void K_ApplyGravityForce(Grid3f K_velu, Grid3f K_velv, Grid3f K_velw, int nx, int ny, int nz, float dt)
 	{
 		int i = blockDim.x * blockIdx.x + threadIdx.x;
 		int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -1074,28 +1070,26 @@ namespace mfd {
 
 		if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
 		{
-		vel_ku(i, j, k) += 0.0f;
-		vel_kv(i, j, k) += g*dt;
-		vel_kw(i, j, k) += 0.0f;
+		K_velu(i, j, k) += 0.0f;
+		K_velv(i, j, k) += g*dt;
+		K_velw(i, j, k) += 0.0f;
 		//if (j == 0) vel_kv(i, j, k) += -g*dt; return;
 		}
 	}
 
 
-	//2
-	void HybridMultiPhaseFluid::ApplyGravityForce(Grid3f vel_hu, Grid3f vel_hv, Grid3f vel_hw, Grid3f mass, float dt)
+	////ApplyGravity
+	void HybridMultiPhaseFluid::ApplyGravityForce(Grid3f H_velu, Grid3f H_velv, Grid3f H_velw, Grid3f H_mass, float dt)
 	{
 
-		//ApplyGravity
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
-
-		K_ApplyGravityForce << < dimGrid, dimBlock >> > (vel_gu, vel_gv, vel_gw,nx, ny, nz, dt);
+		K_ApplyGravityForce << < dimGrid, dimBlock >> > (D_Gravity_velu, D_Gravity_velv, D_Gravity_velw,nx, ny, nz, dt);
 		cuSynchronize();
 		
-		vel_gu.CopyFromDeviceToHost(vel_hu);
-		vel_gv.CopyFromDeviceToHost(vel_hv);
-		vel_gw.CopyFromDeviceToHost(vel_hw);
+		D_Gravity_velu.CopyFromDeviceToHost(H_velu);
+		D_Gravity_velv.CopyFromDeviceToHost(H_velv);
+		D_Gravity_velw.CopyFromDeviceToHost(H_velw);
 
 		//vel_gu.cudaRelease();
 		//vel_gv.cudaRelease();
@@ -1106,7 +1100,7 @@ namespace mfd {
 	/*-----------------------------------------------------------------------------*/
 	/*-----------------------------------Advection-------------------------------- */
 	/*-----------------------------------------------------------------------------*/
-	__global__ void K_InterpolateVelocity(GridV3f vel_k, Grid3f vel_ku, Grid3f vel_kv, Grid3f vel_kw,int nx, int ny, int nz)
+	__global__ void K_InterpolateVelocity(GridV3f K_vel, Grid3f K_velu, Grid3f K_velv, Grid3f K_velw,int nx, int ny, int nz)
 	{
 		int i = blockDim.x * blockIdx.x + threadIdx.x;
 		int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -1118,17 +1112,17 @@ namespace mfd {
 		float3 vel_ijk;
 		if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
 		{
-			vel_ijk.x = 0.5f*(vel_ku(i, j, k) + vel_ku(i + 1, j, k));
-			vel_ijk.y = 0.5f*(vel_kv(i, j, k) + vel_kv(i, j + 1, k));
-			vel_ijk.z = 0.5f*(vel_kw(i, j, k) + vel_kw(i, j, k + 1));
+			vel_ijk.x = 0.5f*(K_velu(i, j, k) + K_velu(i + 1, j, k));
+			vel_ijk.y = 0.5f*(K_velv(i, j, k) + K_velv(i, j + 1, k));
+			vel_ijk.z = 0.5f*(K_velw(i, j, k) + K_velw(i, j, k + 1));
 
-			vel_k(i, j, k).x = vel_ijk.x;
-			vel_k(i, j, k).y = vel_ijk.y;
-			vel_k(i, j, k).z = vel_ijk.z;
+			K_vel(i, j, k).x = vel_ijk.x;
+			K_vel(i, j, k).y = vel_ijk.y;
+			K_vel(i, j, k).z = vel_ijk.z;
 		}
 	}
 
-	__global__ void K_AdvectionVelocity(GridV3f vel_k, GridV3f vel_k0, int nx, int ny, int nz, float dt)
+	__global__ void K_AdvectionVelocity(GridV3f K_vel, GridV3f K_vel0, int nx, int ny, int nz, float dt)
 	{
 		float h = 0.005f;
 		float fx, fy, fz;
@@ -1145,9 +1139,9 @@ namespace mfd {
 		if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
 		{
 
-			fx = i + dt*vel_k0(i, j, k).x / h;
-			fy = j + dt*vel_k0(i, j, k).y / h;
-			fz = k + dt*vel_k0(i, j, k).z / h;
+			fx = i + dt*K_vel0(i, j, k).x / h;
+			fy = j + dt*K_vel0(i, j, k).y / h;
+			fz = k + dt*K_vel0(i, j, k).z / h;
 
 			if (fx < 1) { fx = 1; }
 			if (fx > nx - 2) { fx = nx - 2; }
@@ -1175,37 +1169,37 @@ namespace mfd {
 			//原子操作
 
 			//x direction
-			atomicAdd(&vel_k(ix, iy, iz).x, vel_k0(i, j, k).x * w000);
-			atomicAdd(&vel_k(ix + 1, iy, iz).x, vel_k0(i, j, k).x * w100);
-			atomicAdd(&vel_k(ix, iy + 1, iz).x, vel_k0(i, j, k).x * w010);
-			atomicAdd(&vel_k(ix, iy, iz + 1).x, vel_k0(i, j, k).x * w001);
+			atomicAdd(&K_vel(ix, iy, iz).x, K_vel0(i, j, k).x * w000);
+			atomicAdd(&K_vel(ix + 1, iy, iz).x, K_vel0(i, j, k).x * w100);
+			atomicAdd(&K_vel(ix, iy + 1, iz).x, K_vel0(i, j, k).x * w010);
+			atomicAdd(&K_vel(ix, iy, iz + 1).x, K_vel0(i, j, k).x * w001);
 
-			atomicAdd(&vel_k(ix + 1, iy + 1, iz + 1).x, vel_k0(i, j, k).x * w111);
-			atomicAdd(&vel_k(ix, iy + 1, iz + 1).x, vel_k0(i, j, k).x * w011);
-			atomicAdd(&vel_k(ix + 1, iy, iz + 1).x, vel_k0(i, j, k).x * w101);
-			atomicAdd(&vel_k(ix + 1, iy + 1, iz).x, vel_k0(i, j, k).x * w110);
+			atomicAdd(&K_vel(ix + 1, iy + 1, iz + 1).x, K_vel0(i, j, k).x * w111);
+			atomicAdd(&K_vel(ix, iy + 1, iz + 1).x, K_vel0(i, j, k).x * w011);
+			atomicAdd(&K_vel(ix + 1, iy, iz + 1).x, K_vel0(i, j, k).x * w101);
+			atomicAdd(&K_vel(ix + 1, iy + 1, iz).x, K_vel0(i, j, k).x * w110);
 
 			//y direction
-			atomicAdd(&vel_k(ix, iy, iz).y, vel_k0(i, j, k).y * w000);
-			atomicAdd(&vel_k(ix + 1, iy, iz).y, vel_k0(i, j, k).y * w100);
-			atomicAdd(&vel_k(ix, iy + 1, iz).y, vel_k0(i, j, k).y * w010);
-			atomicAdd(&vel_k(ix, iy, iz + 1).y, vel_k0(i, j, k).y * w001);
+			atomicAdd(&K_vel(ix, iy, iz).y, K_vel0(i, j, k).y * w000);
+			atomicAdd(&K_vel(ix + 1, iy, iz).y, K_vel0(i, j, k).y * w100);
+			atomicAdd(&K_vel(ix, iy + 1, iz).y, K_vel0(i, j, k).y * w010);
+			atomicAdd(&K_vel(ix, iy, iz + 1).y, K_vel0(i, j, k).y * w001);
 
-			atomicAdd(&vel_k(ix + 1, iy + 1, iz + 1).y, -vel_k0(i, j, k).y * w111);
-			atomicAdd(&vel_k(ix, iy + 1, iz + 1).y, vel_k0(i, j, k).y * w011);
-			atomicAdd(&vel_k(ix + 1, iy, iz + 1).y, vel_k0(i, j, k).y * w101);
-			atomicAdd(&vel_k(ix + 1, iy + 1, iz).y, vel_k0(i, j, k).y * w110);
+			atomicAdd(&K_vel(ix + 1, iy + 1, iz + 1).y, K_vel0(i, j, k).y * w111);
+			atomicAdd(&K_vel(ix, iy + 1, iz + 1).y, K_vel0(i, j, k).y * w011);
+			atomicAdd(&K_vel(ix + 1, iy, iz + 1).y, K_vel0(i, j, k).y * w101);
+			atomicAdd(&K_vel(ix + 1, iy + 1, iz).y, K_vel0(i, j, k).y * w110);
 
 			//z direction
-			atomicAdd(&vel_k(ix, iy, iz).z, vel_k0(i, j, k).z * w000);
-			atomicAdd(&vel_k(ix + 1, iy, iz).z, vel_k0(i, j, k).z * w100);
-			atomicAdd(&vel_k(ix, iy + 1, iz).z, vel_k0(i, j, k).z * w010);
-			atomicAdd(&vel_k(ix, iy, iz + 1).z, vel_k0(i, j, k).z * w001);
+			atomicAdd(&K_vel(ix, iy, iz).z, K_vel0(i, j, k).z * w000);
+			atomicAdd(&K_vel(ix + 1, iy, iz).z, K_vel0(i, j, k).z * w100);
+			atomicAdd(&K_vel(ix, iy + 1, iz).z, K_vel0(i, j, k).z * w010);
+			atomicAdd(&K_vel(ix, iy, iz + 1).z, K_vel0(i, j, k).z * w001);
 
-			atomicAdd(&vel_k(ix + 1, iy + 1, iz + 1).z, vel_k0(i, j, k).z * w111);
-			atomicAdd(&vel_k(ix, iy + 1, iz + 1).z, vel_k0(i, j, k).z * w011);
-			atomicAdd(&vel_k(ix + 1, iy, iz + 1).z, vel_k0(i, j, k).z * w101);
-			atomicAdd(&vel_k(ix + 1, iy + 1, iz).z, vel_k0(i, j, k).z * w110);
+			atomicAdd(&K_vel(ix + 1, iy + 1, iz + 1).z, K_vel0(i, j, k).z * w111);
+			atomicAdd(&K_vel(ix, iy + 1, iz + 1).z, K_vel0(i, j, k).z * w011);
+			atomicAdd(&K_vel(ix + 1, iy, iz + 1).z, K_vel0(i, j, k).z * w101);
+			atomicAdd(&K_vel(ix + 1, iy + 1, iz).z, K_vel0(i, j, k).z * w110);
 		}
 	}
 
@@ -1233,34 +1227,34 @@ namespace mfd {
 
 
 	//3、advection
-	void HybridMultiPhaseFluid::InterpolateVelocity(Grid3f vel_hu, Grid3f vel_hv, Grid3f vel_hw, float subtep)
+	void HybridMultiPhaseFluid::InterpolateVelocity(Grid3f H_velu, Grid3f H_velv, Grid3f H_velw, float subtep)
 	{
 
-		vel_du.CopyFromHostToDevice(vel_hu);
-		vel_dv.CopyFromHostToDevice(vel_hv);
-		vel_dw.CopyFromHostToDevice(vel_hw);
+		D_Advection_velu.CopyFromHostToDevice(H_velu);
+		D_Advection_velv.CopyFromHostToDevice(H_velv);
+		D_Advection_velw.CopyFromHostToDevice(H_velw);
 		
 
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
 		
 		//Interpolation from Boundary to Center
-		K_InterpolateVelocity << < dimGrid, dimBlock >> > (vel, vel_du, vel_dv, vel_dw, nx, ny, nz);
+		K_InterpolateVelocity << < dimGrid, dimBlock >> > (D_Advection_uvw, D_Advection_velu, D_Advection_velv, D_Advection_velw, nx, ny, nz);
 		cuSynchronize();
 		//vel_d.Zero();
 		//K_CopyData << < dimGrid, dimBlock >> > (vel_d, vel);
 		//vel_d.CopyFromDeviceToDevice(vel);
 		//Semi-Lagrangian Advection
-		K_AdvectionVelocity << < dimGrid, dimBlock >> > (vel_d, vel, nx, ny, nz, subtep);
+		K_AdvectionVelocity << < dimGrid, dimBlock >> > (D_Advection_uvw1, D_Advection_uvw, nx, ny, nz, subtep);
 		cuSynchronize();
 		
 		//Interpolation from Center to Boundary
-		K_InterpolatedVelocity << < dimGrid, dimBlock >> > (vel_du, vel_dv, vel_dw, nx, ny, nz, vel_d, subtep);
+		K_InterpolatedVelocity << < dimGrid, dimBlock >> > (D_Advection_velu, D_Advection_velv, D_Advection_velw, nx, ny, nz, D_Advection_uvw1, subtep);
 		cuSynchronize();
 
-		vel_du.CopyFromDeviceToHost(vel_hu);
-		vel_dv.CopyFromDeviceToHost(vel_hv);
-		vel_dw.CopyFromDeviceToHost(vel_hw);
+		D_Advection_velu.CopyFromDeviceToHost(H_velu);
+		D_Advection_velv.CopyFromDeviceToHost(H_velv);
+		D_Advection_velw.CopyFromDeviceToHost(H_velw);
 
 		//vel_du.cudaRelease();
 		//vel_dv.cudaRelease();
@@ -1387,25 +1381,24 @@ namespace mfd {
 		}
 	}
 	
-	void HybridMultiPhaseFluid::PrepareForProjection(GridCoef coefMatrix, Grid3f RHS,Grid3f vel_hu, Grid3f vel_hv, Grid3f vel_hw,Grid3f mass_host, float subtep)
+	void HybridMultiPhaseFluid::PrepareForProjection(GridCoef H_coefMatrix, Grid3f H_RHS,Grid3f H_velu, Grid3f H_velv, Grid3f H_velw,Grid3f H_mass, float subtep)
 	{
-
-		Devmass.CopyFromHostToDevice(mass_host);
-		Div_velu.CopyFromHostToDevice(vel_hu);
-		Div_velv.CopyFromHostToDevice(vel_hv);
-		Div_velw.CopyFromHostToDevice(vel_hw);
+		D_Divergence_velu.CopyFromHostToDevice(H_velu);
+		D_Divergence_velv.CopyFromHostToDevice(H_velv);
+		D_Divergence_velw.CopyFromHostToDevice(H_velw);
+		D_Divergence_mass.CopyFromHostToDevice(H_mass);
 
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
-		K_PrepareForProjection << < dimGrid, dimBlock >> > (DevcoefMatrix, DevRHS, Devmass, Div_velu, Div_velv, Div_velw,nx,ny,nz, subtep);
+		K_PrepareForProjection << < dimGrid, dimBlock >> > (D_Divergence_coefMatrix, D_Divergence_RHS, D_Divergence_mass, D_Divergence_velu, D_Divergence_velv, D_Divergence_velw,nx,ny,nz, subtep);
 		cuSynchronize();
+		D_Divergence_RHS.CopyFromDeviceToHost(H_RHS);
+		D_Divergence_coefMatrix.CopyFromDeviceToHost(H_coefMatrix);
+		
 
-		DevcoefMatrix.CopyFromDeviceToHost(coefMatrix);
-		DevRHS.CopyFromDeviceToHost(RHS);
-
-		Div_velu.CopyFromDeviceToHost(vel_hu);
-		Div_velv.CopyFromDeviceToHost(vel_hv);
-		Div_velw.CopyFromDeviceToHost(vel_hw);
+		D_Divergence_velu.CopyFromDeviceToHost(H_velu);
+		D_Divergence_velv.CopyFromDeviceToHost(H_velv);
+		D_Divergence_velw.CopyFromDeviceToHost(H_velw);
 
 		//DevcoefMatrix.cudaRelease();
 		//DevRHS.cudaRelease();
@@ -1465,29 +1458,27 @@ namespace mfd {
 	}
 
 	//4、压力求解
-	void HybridMultiPhaseFluid::Projection(Grid3f pressure1, Grid3f Host_dataP,Grid3f buf, GridCoef coefMatrix, Grid3f RHS, int numIter,float dt)
+	void HybridMultiPhaseFluid::Projection(Grid3f H_pressure, GridCoef H_coefMatrix, Grid3f H_RHS, int numIter,float dt)
 	{		
-
-		Projection_coefMatrix.CopyFromHostToDevice(coefMatrix);
-		Projection_RHS.CopyFromHostToDevice(RHS);
-
+		D_Projection_RHS.CopyFromHostToDevice(H_RHS);
+		D_Projection_coefMatrix.CopyFromHostToDevice(H_coefMatrix);
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
 		
 		//雅克比迭代求解压力
-		Projection_pressure.cudaClear();
+		D_Projection_pressure.cudaClear();
 		for (int i = 0; i < numIter; i++)
 		{
 			//K_CopyData << < dimGrid, dimBlock >> >(temp, Projection_buf);
-			K_CopyData << < dimGrid, dimBlock >> >(Projection_buf, Projection_pressure);
+			K_CopyData << < dimGrid, dimBlock >> >(D_Projection_buf, D_Projection_pressure);
 			//K_CopyData << < dimGrid, dimBlock >> >(Projection_pressure, temp);
 			//Projection_buf.Swap(Projection_pressure);
 			//buf.Swap(pressure1);
 			
-			K_Projection << < dimGrid, dimBlock >> > (Projection_pressure, Projection_buf, Projection_coefMatrix, Projection_RHS);
+			K_Projection << < dimGrid, dimBlock >> > (D_Projection_pressure, D_Projection_buf, D_Projection_coefMatrix, D_Projection_RHS);
 			cuSynchronize();
 		}
-		Projection_pressure.CopyFromDeviceToHost(pressure1);
+		D_Projection_pressure.CopyFromDeviceToHost(H_pressure);
 		//Projection_coefMatrix.cudaRelease();
 		//Projection_RHS.cudaRelease();
 		//Projection_buf.cudaRelease();
@@ -1544,31 +1535,31 @@ namespace mfd {
 		//}
 	}
 	//5、速度更新
-	void HybridMultiPhaseFluid::UpdateVelocity(Grid3f vel_u1, Grid3f vel_v1, Grid3f vel_w1, Grid3f pressure2, Grid3f mass_host, float dt)
+	void HybridMultiPhaseFluid::UpdateVelocity(Grid3f H_velu, Grid3f H_velv, Grid3f H_velw, Grid3f H_pressure, Grid3f H_mass, float dt)
 	{
 
-		vel_uu.CopyFromHostToDevice(vel_u1);
-		vel_uv.CopyFromHostToDevice(vel_v1);
-		vel_uw.CopyFromHostToDevice(vel_w1);
-		Updatamass.CopyFromHostToDevice(mass_host);
-		Updatapressure.CopyFromHostToDevice(pressure2);
+		D_Updata_velu.CopyFromHostToDevice(H_velu);
+		D_Updata_velv.CopyFromHostToDevice(H_velv);
+		D_Updata_velw.CopyFromHostToDevice(H_velw);
+		D_Updatamass.CopyFromHostToDevice(H_mass);
+		D_Updatapressure.CopyFromHostToDevice(H_pressure);
 
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
-		K_UpdateVelocity << < dimGrid, dimBlock >> > (vel_uu, vel_uv, vel_uw, Updatapressure, Updatamass,dt);
+		K_UpdateVelocity << < dimGrid, dimBlock >> > (D_Updata_velu, D_Updata_velv, D_Updata_velw, D_Updatapressure, D_Updatamass,dt);
 		cuSynchronize();
-		vel_uu.CopyFromDeviceToHost(vel_u1);
-		vel_uv.CopyFromDeviceToHost(vel_v1);
-		vel_uw.CopyFromDeviceToHost(vel_w1);
+		D_Updata_velu.CopyFromDeviceToHost(H_velu);
+		D_Updata_velv.CopyFromDeviceToHost(H_velv);
+		D_Updata_velw.CopyFromDeviceToHost(H_velw);
 
 		float totalDivergence = 0.0f;
-		for (size_t i = 0; i < pressure2.nx; i++)
+		for (size_t i = 0; i < H_pressure.nx; i++)
 		{
-			for (size_t j = 0; j < pressure2.ny; j++)
+			for (size_t j = 0; j < H_pressure.ny; j++)
 			{
-				for (size_t k = 0; k < pressure2.nz; k++)
+				for (size_t k = 0; k < H_pressure.nz; k++)
 				{
-					totalDivergence += abs((vel_u1(i+1, j, k)- vel_u1(i, j, k))+ (vel_v1(i, j+1, k) - vel_v1(i, j, k))+ (vel_w1(i, j, k+1) - vel_w1(i, j, k)));
+					totalDivergence += abs((H_velu(i+1, j, k)- H_velu(i, j, k))+ (H_velv(i, j+1, k) - H_velv(i, j, k))+ (H_velw(i, j, k+1) - H_velw(i, j, k)));
 				}
 			}
 		}
