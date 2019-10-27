@@ -16,6 +16,7 @@
 #include "MfdIO/Image.h"
 #include "MfdNumericalMethod/UniformGridQuery.h"
 #include<fstream>
+#include "pcgsolver/pcg_solver.h"
 
 
 
@@ -305,6 +306,185 @@ namespace mfd {
 
 	}
 
+	template<class T>
+	T sqr(const T& x)
+	{
+		return x*x;
+	}
+
+	void HybridMultiPhaseFluid::ProjectConstantMAC(Grid3f vel_u, Grid3f vel_v, Grid3f vel_w, Grid3f mass, float h, float rho1, float rho2, float dt)
+	{
+		PCGSolver<double> solver;
+		SparseMatrixd matrix;
+		std::vector<double> rhs;
+		std::vector<double> pressure;
+
+		int ni = nx;
+		int nj = ny;
+		int nk = nz;
+
+
+		int system_size = ni*nj*nk;
+
+		rhs.resize(system_size);
+		pressure.resize(system_size);
+		matrix.resize(system_size);
+
+		matrix.zero();
+		rhs.assign(rhs.size(), 0);
+		pressure.assign(pressure.size(), 0);
+
+		//Build the linear system for pressure
+
+		for (int k = 1; k < nk - 1; ++k) {
+			for (int j = 1; j < nj - 1; ++j) {
+				for (int i = 1; i < ni - 1; ++i) {
+					int index = i + ni*j + ni*nj*k;
+
+					rhs[index] = 0;
+					pressure[index] = 0;
+					//right neighbour
+
+					if (i < nx - 2) {
+						float c = 0.5f*(mass(i, j, k) + mass(i + 1, j, k));
+						c = c > 1.0f ? 1.0f : c;
+						c = c < 0.0f ? 0.0f : c;
+						float term = dt / sqr(h) / (rho1*c + rho2*(1.0f - c));
+
+						matrix.add_to_element(index, index, term);
+						matrix.add_to_element(index, index + 1, -term);
+					}
+					rhs[index] -= vel_u(i + 1, j, k) / h;
+
+					//left neighbour
+
+					if (i > 1) {
+						float c = 0.5f*(mass(i, j, k) + mass(i - 1, j, k));
+						c = c > 1.0f ? 1.0f : c;
+						c = c < 0.0f ? 0.0f : c;
+						float term = dt / sqr(h) / (rho1*c + rho2*(1.0f - c));
+						matrix.add_to_element(index, index, term);
+						matrix.add_to_element(index, index - 1, -term);
+					}
+					rhs[index] += vel_u(i, j, k) / h;
+
+					//top neighbour
+
+					if (j < nj - 2) {
+						float c = 0.5f*(mass(i, j, k) + mass(i, j + 1, k));
+						c = c > 1.0f ? 1.0f : c;
+						c = c < 0.0f ? 0.0f : c;
+						float term = dt / sqr(h) / (rho1*c + rho2*(1.0f - c));
+						matrix.add_to_element(index, index, term);
+						matrix.add_to_element(index, index + ni, -term);
+					}
+					rhs[index] -= vel_v(i, j + 1, k) / h;
+
+					//bottom neighbour
+
+					if (j > 1) {
+						float c = 0.5f*(mass(i, j, k) + mass(i, j - 1, k));
+						c = c > 1.0f ? 1.0f : c;
+						c = c < 0.0f ? 0.0f : c;
+						float term = dt / sqr(h) / (rho1*c + rho2*(1.0f - c));
+						matrix.add_to_element(index, index, term);
+						matrix.add_to_element(index, index - ni, -term);
+					}
+					rhs[index] += vel_v(i, j, k) / h;
+
+
+					//far neighbour
+
+					if (k < nz - 2) {
+						float c = 0.5f*(mass(i, j, k) + mass(i, j, k + 1));
+						c = c > 1.0f ? 1.0f : c;
+						c = c < 0.0f ? 0.0f : c;
+						float term = dt / sqr(h) / (rho1*c + rho2*(1.0f - c));
+						matrix.add_to_element(index, index, term);
+						matrix.add_to_element(index, index + ni*nj, -term);
+					}
+					rhs[index] -= vel_w(i, j, k + 1) / h;
+
+					//near neighbour
+
+					if (k > 1) {
+						float c = 0.5f*(mass(i, j, k) + mass(i, j, k - 1));
+						c = c > 1.0f ? 1.0f : c;
+						c = c < 0.0f ? 0.0f : c;
+						float term = dt / sqr(h) / (rho1*c + rho2*(1.0f - c));
+						matrix.add_to_element(index, index, term);
+						matrix.add_to_element(index, index - ni*nj, -term);
+					}
+					rhs[index] += vel_w(i, j, k) / h;
+				}
+			}
+		}
+
+		double tolerance;
+		int iterations;
+		solver.set_solver_parameters(1e-6, 500);
+		bool success = solver.solve(matrix, rhs, pressure, tolerance, iterations);
+		//printf("Solver took %d iterations and had residual %e\n", iterations, tolerance);
+		if (!success) {
+			printf("WARNING: Pressure solve failed!************************************************\n");
+		}
+		else
+			cout << "Succeded! Interation number: " << iterations << " Threshold: " << tolerance << endl;
+
+		float nij = ni*nj;
+
+#pragma omp parallel for
+		for (int i = 2; i < vel_u.nx - 2; i++)
+		{
+			for (int j = 1; j < vel_u.ny - 1; j++)
+			{
+				for (int k = 1; k < vel_u.nz - 1; k++)
+				{
+					int index = i + j*ni + k*ni*nj;
+					float c = 0.5f*(mass[index - 1] + mass[index]);
+					c = c > 1.0f ? 1.0f : c;
+					c = c < 0.0f ? 0.0f : c;
+
+					vel_u(i, j, k) -= dt*(pressure[index] - pressure[index - 1]) / h / (c*rho1 + (1.0f - c)*rho2);
+				}
+			}
+		}
+
+#pragma omp parallel for
+		for (int i = 1; i < vel_v.nx - 1; i++)
+		{
+			for (int j = 2; j < vel_v.ny - 2; j++)
+			{
+				for (int k = 1; k < vel_v.nz - 1; k++)
+				{
+					int index = i + j*ni + k*ni*nj;
+					float c = 0.5f*(mass[index] + mass[index - ni]);
+					c = c > 1.0f ? 1.0f : c;
+					c = c < 0.0f ? 0.0f : c;
+
+					vel_v(i, j, k) -= dt*(pressure[index] - pressure[index - ni]) / h / (c*rho1 + (1.0f - c)*rho2);
+				}
+			}
+		}
+
+#pragma omp parallel for
+		for (int i = 1; i < vel_w.nx - 1; i++)
+		{
+			for (int j = 1; j < vel_w.ny - 1; j++)
+			{
+				for (int k = 2; k < vel_w.nz - 2; k++)
+				{
+					int index = i + j*ni + k*ni*nj;
+					float c = 0.5f*(mass[index] + mass[index - nij]);
+					c = c > 1.0f ? 1.0f : c;
+					c = c < 0.0f ? 0.0f : c;
+					vel_w(i, j, k) -= dt*(pressure[index] - pressure[index - nij]) / h / (c*rho1 + (1.0f - c)*rho2);
+				}
+			}
+		}
+	}
+
+
 	/*-----------------------------------------------------------------------------*/
 	/*------------------------------------Start Euler ---------------------------- */
 	/*-----------------------------------------------------------------------------*/
@@ -335,9 +515,53 @@ namespace mfd {
 			//InitVolecity(massGrid_phase[0], vel_hu, vel_hv, vel_hw, dt);
 			ApplyGravityForce(velHost_u, velHost_v, velHost_w, massGrid_phase[0], substep);
 			InterpolateVelocity(velHost_u, velHost_v, velHost_w, substep);
-			PrepareForProjection(coefMatrix, RHS, velHost_u, velHost_v, velHost_w, massGrid_phase[0], substep);
-			Projection(Host_pressure, Host_dataP,H_buf,coefMatrix, RHS, 30, substep);
-			UpdateVelocity(velHost_u, velHost_v, velHost_w, Host_pressure, massGrid_phase[0], substep);
+
+			for (size_t i = 0; i < nx; i++)
+			{
+				for (size_t j = 0; j < ny; j++)
+				{
+					velHost_w(i, j, 0) = 0.0f;
+					velHost_w(i, j, 1) = 0.0f;
+					velHost_w(i, j, nz) = 0.0f;
+					velHost_w(i, j, nz - 1) = 0.0f;
+				}
+			}
+
+			for (size_t j = 0; j < ny; j++)
+			{
+				for (size_t k = 0; k < nz; k++)
+				{
+					velHost_u(0, j, k) = 0.0f;
+					velHost_u(1, j, k) = 0.0f;
+					velHost_u(nx, j, k) = 0.0f;
+					velHost_u(nx - 1, j, k) = 0.0f;
+				}
+			}
+
+			for (size_t k = 0; k < nz; k++)
+			{
+				for (size_t i = 0; i < nx; i++)
+				{
+					velHost_v(i, 0, k) = 0.0f;
+					velHost_v(i, 1, k) = 0.0f;
+					velHost_v(i, ny, k) = 0.0f;
+					velHost_v(i, ny - 1, k) = 0.0f;
+				}
+			}
+
+			//for (size_t i = 0; i < massGrid_phase[0].elementCount; i++)
+			//{
+			//	massGrid_phase[0][i] = 1.0f;
+			//}
+
+			//velHost_u.Zero();
+			//velHost_v.Zero();
+			//velHost_w.Zero();
+			ProjectConstantMAC(velHost_u, velHost_v, velHost_w, massGrid_phase[0], h, RHO2, RHO1, substep);
+
+			//PrepareForProjection(coefMatrix, RHS, velHost_u, velHost_v, velHost_w, massGrid_phase[0], substep);
+			//Projection(Host_pressure, Host_dataP,H_buf,coefMatrix, RHS, 300, substep);
+			//UpdateVelocity(velHost_u, velHost_v, velHost_w, Host_pressure, massGrid_phase[0], substep);
 			
 			//float pd;
 			//ofstream  fout("vel_gv.txt");   //创建一个文件
@@ -359,12 +583,14 @@ namespace mfd {
 					{
 						velGrid_phase[0](i, j, k)[0] = 0.5f*(velHost_u(i - 1, j, k) + velHost_u(i, j, k));
 						velGrid_phase[0](i, j, k)[1] = 0.5f*(velHost_v(i, j - 1, k) + velHost_v(i, j, k));
+						velGrid_phase[0](i, j, k)[2] = 0.5f*(velHost_w(i, j, k - 1) + velHost_w(i, j, k));
 					}
 				}
 			}
 			
 			preMassGrid_Air = massGrid_phase[0];
-			cudaAdvectForward(massGrid_phase[0], preMassGrid_Air, velGrid_phase[0], substep);
+			AdvectWENO1rd(massGrid_phase[0], preMassGrid_Air, velHost_u, velHost_v, velHost_w, substep);
+			//cudaAdvectForward(massGrid_phase[0], preMassGrid_Air, velGrid_phase[0], substep);
 			t_end = clock();
 			cout << "Advect Time: " << t_end - t_start << endl;
 			t_start = clock();
@@ -472,6 +698,167 @@ namespace mfd {
 		}
 	}
 
+	void HybridMultiPhaseFluid::SetScalarFieldBoundary1(Grid3f& field, bool postive)
+	{
+		int nx = field.Nx();
+		int ny = field.Ny();
+		int nz = field.Nz();
+
+		float s = postive ? 1.0f : -1.0f;
+
+#pragma omp parallel for
+		for (int j = 1; j < ny - 1; j++)
+		{
+			for (int k = 1; k < nz - 1; k++)
+			{
+				field(0, j, k) = s*field(1, j, k);
+				field(nx - 1, j, k) = s*field(nx - 2, j, k);
+			}
+		}
+
+#pragma omp parallel for
+		for (int i = 1; i < nx - 1; i++)
+		{
+			for (int k = 1; k < nz - 1; k++)
+			{
+				field(i, 0, k) = s*field(i, 1, k);
+				field(i, ny - 1, k) = s*field(i, ny - 2, k);
+			}
+		}
+
+#pragma omp parallel for
+		for (int i = 1; i < nx - 1; i++)
+		{
+			for (int j = 1; j < ny - 1; j++)
+			{
+				field(i, j, 0) = s*field(i, j, 1);
+				field(i, j, nz - 1) = s*field(i, j, nz - 2);
+			}
+		}
+
+		for (int i = 1; i < nx - 1; i++)
+		{
+			field(i, 0, 0) = 0.5f*(field(i, 1, 0) + field(i, 0, 1));
+			field(i, ny - 1, 0) = 0.5f*(field(i, ny - 2, 0) + field(i, ny - 1, 1));
+			field(i, 0, nz - 1) = 0.5f*(field(i, 1, nz - 1) + field(i, 0, nz - 2));
+			field(i, ny - 1, nz - 1) = 0.5f*(field(i, ny - 1, nz - 2) + field(i, ny - 2, nz - 1));
+		}
+
+		for (int j = 1; j < ny - 1; j++)
+		{
+			field(0, j, 0) = 0.5f*(field(1, j, 0) + field(0, j, 1));
+			field(0, j, nz - 1) = 0.5f*(field(1, j, nz - 1) + field(0, j, nz - 2));
+			field(nx - 1, j, 0) = 0.5f*(field(nx - 2, j, 0) + field(nx - 2, j, 1));
+			field(nx - 1, j, nz - 1) = 0.5f*(field(nx - 2, j, nz - 1) + field(nx - 1, j, nz - 2));
+		}
+
+		for (int k = 1; k < nz - 1; k++)
+		{
+			field(0, 0, k) = 0.5f*(field(1, 0, k) + field(0, 1, k));
+			field(nx - 1, 0, k) = 0.5f*(field(nx - 2, 0, k) + field(nx - 1, 1, k));
+			field(0, ny - 1, k) = 0.5f*(field(1, ny - 1, k) + field(0, ny - 2, k));
+			field(nx - 1, ny - 1, k) = 0.5f*(field(nx - 2, ny - 1, k) + field(nx - 1, ny - 2, k));
+		}
+
+		field(0, 0, 0) = (field(1, 0, 0) + field(0, 1, 0) + field(0, 0, 1)) / 3.0f;
+		field(0, 0, nz - 1) = (field(1, 0, nz - 1) + field(0, 1, nz - 1) + field(0, 0, nz - 2)) / 3.0f;
+		field(0, ny - 1, 0) = (field(1, ny - 1, 0) + field(0, ny - 2, 0) + field(0, ny - 1, 1)) / 3.0f;
+		field(nx - 1, 0, 0) = (field(nx - 2, 0, 0) + field(nx - 1, 1, 0) + field(nx - 1, 0, 1)) / 3.0f;
+		field(0, ny - 1, nz - 1) = (field(1, ny - 1, nz - 1) + field(0, ny - 2, nz - 1) + field(0, ny - 1, nz - 2)) / 3.0f;
+		field(nx - 1, 0, nz - 1) = (field(nx - 2, 0, nz - 1) + field(nx - 1, 1, nz - 1) + field(nx - 1, 0, nz - 2)) / 3.0f;
+		field(nx - 1, ny - 1, 0) = (field(nx - 2, ny - 1, 0) + field(nx - 1, ny - 2, 0) + field(nx - 1, ny - 1, 1)) / 3.0f;
+		field(nx - 1, ny - 1, nz - 1) = (field(nx - 2, ny - 1, nz - 1) + field(nx - 1, ny - 2, nz - 1) + field(nx - 1, ny - 1, nz - 2)) / 3.0f;
+	}
+
+	void HybridMultiPhaseFluid::AdvectWENO1rd(Grid3f& d, Grid3f& d0, Grid3f& u, Grid3f& v, Grid3f& w, float dt)
+	{
+		d = d0;
+		SetScalarFieldBoundary1(d0, true);
+
+		float invh = 1.0f / samplingDistance;
+
+		int nx = d0.Nx();
+		int ny = d0.Ny();
+		int nz = d0.Nz();
+
+
+#pragma omp parallel shared(d, d0, u, v, w, dt, invh) num_threads(NUM_THREAD)
+		{
+
+#pragma omp for
+			for (int i = 1; i < nx - 1; i++)
+			{
+				for (int j = 1; j < ny - 1; j++)
+				{
+					for (int k = 1; k < nz - 1; k++)
+					{
+						float u_mid;
+						float c_mid;
+						int ix0, iy0, iz0;
+						int ix1, iy1, iz1;
+						float dc;
+
+						ix0 = i;   iy0 = j; iz0 = k;
+						ix1 = i + 1; iy1 = j; iz1 = k;
+						if (ix1 < nx - 1)
+						{
+							u_mid = u(i + 1, j, k);
+							if (u_mid > 0.0f)
+							{
+								c_mid = d0(ix0, iy0, iz0);
+							}
+							else
+							{
+								c_mid = d0(ix1, iy1, iz1);
+							}
+							dc = dt*invh*c_mid*u_mid;
+							d(ix0, iy0, iz0) -= dc;
+							d(ix1, iy1, iz1) += dc;
+						}
+
+
+						//j and j+1
+						ix0 = i; iy0 = j;   iz0 = k;
+						ix1 = i; iy1 = j + 1; iz1 = k;
+						if (iy1 < ny - 1)
+						{
+							u_mid = v(i, j + 1, k);
+							if (u_mid > 0.0f)
+							{
+								c_mid = d0(ix0, iy0, iz0);
+							}
+							else
+							{
+								c_mid = d0(ix1, iy1, iz1);
+							}
+							dc = dt*invh*c_mid*u_mid;
+							d(ix0, iy0, iz0) -= dc;
+							d(ix1, iy1, iz1) += dc;
+						}
+
+						ix0 = i; iy0 = j;   iz0 = k;
+						ix1 = i; iy1 = j; iz1 = k + 1;
+						if (iz1 < nz - 1)
+						{
+							u_mid = w(i, j, k + 1);
+							if (u_mid > 0.0f)
+							{
+								c_mid = d0(ix0, iy0, iz0);
+							}
+							else
+							{
+								c_mid = d0(ix1, iy1, iz1);
+							}
+							dc = dt*invh*c_mid*u_mid;
+							d(ix0, iy0, iz0) -= dc;
+							d(ix1, iy1, iz1) += dc;
+						}
+					}
+				}
+			}
+		}
+
+	}
 
 	void HybridMultiPhaseFluid::cudaAdvectForward(Grid3f d, Grid3f d0, GridV3f v, float dt)
 	{
@@ -1072,7 +1459,7 @@ namespace mfd {
 		//if (j >= ny) return;
 		//if (k >= nz) return;
 
-		if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
+		if (i >= 1 && i < nx - 1 && j >= 2 && j < ny - 2 && k >= 1 && k < nz - 1)
 		{
 		vel_ku(i, j, k) += 0.0f;
 		vel_kv(i, j, k) += g*dt;
@@ -1389,7 +1776,6 @@ namespace mfd {
 	
 	void HybridMultiPhaseFluid::PrepareForProjection(GridCoef coefMatrix, Grid3f RHS,Grid3f vel_hu, Grid3f vel_hv, Grid3f vel_hw,Grid3f mass_host, float subtep)
 	{
-
 		Devmass.CopyFromHostToDevice(mass_host);
 		Div_velu.CopyFromHostToDevice(vel_hu);
 		Div_velv.CopyFromHostToDevice(vel_hv);
@@ -1420,7 +1806,7 @@ namespace mfd {
 	/*----------------------------------Solve Pressure---------------------------- */
 	/*-----------------------------------------------------------------------------*/
 	//4、压力求解
-	__global__ void K_Projection(Grid3f pressure, Grid3f buf, GridCoef coefMatrix, Grid3f RHS)
+	__global__ void K_Projection(Grid3f pressure, Grid3f buf, GridCoef coefMatrix, Grid3f RHS, Grid3f residual)
 	{
 		int i = blockDim.x * blockIdx.x + threadIdx.x;
 		int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -1460,9 +1846,11 @@ namespace mfd {
 		if (k < nz - 1) p_ijk += z1*buf(i, j, k + 1);
 
 		pressure[k0] = p_ijk / a;
+		residual[k0] = p_ijk - a*buf(i, j, k);
 		}
 
 	}
+
 
 	//4、压力求解
 	void HybridMultiPhaseFluid::Projection(Grid3f pressure1, Grid3f Host_dataP,Grid3f buf, GridCoef coefMatrix, Grid3f RHS, int numIter,float dt)
@@ -1474,24 +1862,42 @@ namespace mfd {
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
 		
+		Grid3f host_residual;
+		host_residual.SetSpace(pressure1.nx, pressure1.ny, pressure1.nz);
+		Grid3f device_residual;
+		device_residual.cudaSetSpace(pressure1.nx, pressure1.ny, pressure1.nz);
+
 		//雅克比迭代求解压力
 		Projection_pressure.cudaClear();
 		for (int i = 0; i < numIter; i++)
 		{
+			device_residual.cudaClear();
 			//K_CopyData << < dimGrid, dimBlock >> >(temp, Projection_buf);
 			K_CopyData << < dimGrid, dimBlock >> >(Projection_buf, Projection_pressure);
 			//K_CopyData << < dimGrid, dimBlock >> >(Projection_pressure, temp);
 			//Projection_buf.Swap(Projection_pressure);
 			//buf.Swap(pressure1);
 			
-			K_Projection << < dimGrid, dimBlock >> > (Projection_pressure, Projection_buf, Projection_coefMatrix, Projection_RHS);
+			K_Projection << < dimGrid, dimBlock >> > (Projection_pressure, Projection_buf, Projection_coefMatrix, Projection_RHS, device_residual);
 			cuSynchronize();
+
+			device_residual.CopyFromDeviceToHost(host_residual);
+
+			float totalRes = 0.0f;
+			for (size_t j = 0; j < host_residual.elementCount; j++)
+			{
+				totalRes += abs(host_residual[j]);
+			}
+			std::cout << "Residual error at iter " << i << " : " << totalRes / host_residual.elementCount << std::endl;
 		}
 		Projection_pressure.CopyFromDeviceToHost(pressure1);
 		//Projection_coefMatrix.cudaRelease();
 		//Projection_RHS.cudaRelease();
 		//Projection_buf.cudaRelease();
 		//Projection_pressure.cudaRelease();
+
+		host_residual.Release();
+		device_residual.cudaRelease();
 	}
 
 
@@ -1520,8 +1926,8 @@ namespace mfd {
 		if (k == nz - 1) { vel_w(i, j, k + 1) = 0.0f; return; }
 		int index;
 		float c;
-		//if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
-		//{
+		if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
+		{
 			int nxy = nx*ny;
 			//float h = pfParams.h;
 			float h = 0.005f;
@@ -1541,7 +1947,7 @@ namespace mfd {
 			c = c > 1.0f ? 1.0f : c;
 			c = c < 0.0f ? 0.0f : c;
 			vel_w(i, j, k) -= dt*(pressure[index] - pressure[index - nxy]) / h / (c*RHO1 + (1.0f - c)*RHO2);
-		//}
+		}
 	}
 	//5、速度更新
 	void HybridMultiPhaseFluid::UpdateVelocity(Grid3f vel_u1, Grid3f vel_v1, Grid3f vel_w1, Grid3f pressure2, Grid3f mass_host, float dt)
