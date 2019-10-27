@@ -55,58 +55,39 @@ namespace mfd {
 		public BasicSPH
 	{
 	public:
+		/*
+		2019/10/27
+		author@wdy
+		describe:phase field equation
+		*/
 		HybridMultiPhaseFluid(void);
 		~HybridMultiPhaseFluid(void);
-
 		virtual bool Initialize(string in_filename = "NULL");
-
 		void InitialSeparation();
-
 		virtual void StepEuler(float dt);
+		void MarkSolidDomain();
+		void AllocateMemoery(int _np, int _nx, int _ny, int _nz);
+		void Invoke(unsigned char type, unsigned char key, int x, int y);
+		float CFL();
+		void cudamassGrid_phase(Grid3f& massGrid_phase, GridV3f& posGrid_Air, Vector3f origin, int row, int col, int depth);
+		void cudaAllocateMemoery(int Nx, int Ny, int Nz);
+		void cudaAdvectForward(Grid3f d, Grid3f d0, GridV3f v, float dt);
+		void cudaUpdatePhi(Grid3f& device_d, Grid3f& device_d0, GridV3f v, float dt);
+		void cudaSetScalarFieldBoundary(Grid3f& Device_field, bool postive);
+
 
 		// querying neighbors
 		void ComputeNeighbors();
-
 		//compute density
 		virtual void ComputeDensity();
-
 		int GetAirParticleNumber() { return posGrid_Air.elementCount; }
-		template<typename T>
-		void UpdatePhi(Grid<3, T>& d, Grid<3, T>& d0, float dt);
-		void SetScalarFieldBoundary(Grid3f& field, bool postive);
-		void LinearSolve(Grid3f& d, Grid3f& d0, float a, float c);
-		void MarkSolidDomain();
-		void AllocateMemoery(int _np, int _nx, int _ny, int _nz);
-
-		template<typename T>
-		void AdvectForward(Grid<3, T>& d, Grid<3, T>& d0, GridV3f& v, float dt);
-		void Invoke(unsigned char type, unsigned char key, int x, int y);
-		//virtual void PostProcessing();
-
-		float CFL();
 
 
-
-		/*template<typename T>
-		void AdvectForward(Grid<3, T>& d, Grid<3, T>& d0, GridV3f& v, float dt);*/
-		void cudaInitialSeparation();
-		void cudaMarkSolidDomain();
-		void cudavelGrid_phase(GridV3f velGrid_phase, float t);
-		void cudaAllocateMemoery();
-		void cudamassGrid_phase(Grid3f& massGrid_phase, GridV3f& posGrid_Air, Vector3f origin, int row, int col, int depth);
-		void cudaAllocateMemoery(int Nx, int Ny, int Nz);
-		//virtual void StepEuler(float dt);
-		void cudaAdvectForward(Grid3f d, Grid3f d0, GridV3f v, float dt);
-		void cudaUpdatePhi(Grid3f& device_d, Grid3f& device_d0, GridV3f v, float dt);
-		void cudaLinerSolve(Grid3f& phi, Grid3f& phi0, float c);
-		void cudaSetScalarFieldBoundary(Grid3f& Device_field, bool postive);
-		void cudaSetScalarFieldBoundary1(float* field, bool postive);
-		float cudaCFL();
-
-
-
-		//2019/8/27
-		//N-S equation
+		/*
+		2019/10/27
+		author@wdy
+		describe:N-S equation
+		*/
 		void SetU(Grid3f vel_u);
 		void SetV(Grid3f vel_v);
 		void SetW(Grid3f vel_w);
@@ -116,22 +97,31 @@ namespace mfd {
 		void PrepareForProjection(GridCoef coefMatrix, Grid3f RHS, Grid3f vel_u, Grid3f vel_v, Grid3f vel_w,Grid3f mass, float dt);
 		void Projection(Grid3f pressure, GridCoef coefMatrix, Grid3f RHS, int numIter, float dt);
 		void UpdateVelocity(Grid3f vel_u, Grid3f vel_v, Grid3f vel_w,Grid3f press, Grid3f mass_host, float dt);
-		void AdvectionVelocity(GridV3f vel, Grid3f vel_u, Grid3f vel_v, Grid3f vel_w, float dt);
 
 
-		//2019/10/18
-		//Multigrid
 
-		void Restriction(Grid3f src, Grid3f std);
-		void Interplation(Grid3f src, Grid3f std);
+		/*
+		2019/10/27
+		author@wdy
+		describe:Change code of multigrid
+		*/
 		void Jacobi(Grid3f pressure, Grid3f buf, GridCoef coefMatrix, Grid3f RHS);
 		void Correction(Grid3f r1, Grid3f b1, Grid3f A1, Grid3f u1);
 		void Multigrid(Grid3f A, Grid3f b, Grid3f V, int k);
 		void CorrectionOnCarse(Grid3f u, Grid3f v);
 
+		void Restriction2D(Grid2f src, Grid2f std);
+		void Interplation2D(Grid2f src, Grid2f std);
+
+		void Restriction3D(Grid3f src, Grid3f std);
+		void Interplation3D(Grid3f src, Grid3f std);
 
 	public:
-		
+		/*
+		date:2019/10/27
+		author:@wdy
+		describe:Change variable name on GPU
+		*/
 		//ApplyGravity
 		Grid3f D_Gravity_velu;
 		Grid3f D_Gravity_velv;
@@ -167,6 +157,15 @@ namespace mfd {
 		Grid3f D_Updatapressure;
 
 
+
+
+
+
+		/*
+		date:2019/10/27
+		author:@wdy
+		describe:Change variable name on CPU
+		*/
 		Grid3f H_buf;
 		Grid3f Devmass1;
 		Grid3f Host_pressure;
@@ -181,15 +180,6 @@ namespace mfd {
 		Grid3f Host_dataP;
 
 
-
-		//PrepareForProjection
-
-
-
-
-
-	
-
 		Grid3f vel_u_boundary;
 		Grid3f vel_v_boundary;
 		Grid3f vel_w_boundary;
@@ -201,11 +191,6 @@ namespace mfd {
 		Grid<3, Coeff> coef_v;
 		Grid<3, Coeff> coef_w;
 
-
-		//Eigen::VectorXd x0;
-		//LinearSystem sys;
-		//volecity and pressure
-		//Grid3f vel_u1, vel_v1, vel_w1;
 		Grid3f p;
 		Grid3f divu;
 
@@ -230,19 +215,11 @@ namespace mfd {
 		Array<float> phiLiquid;
 		Array<float> energyLiquid;
 
-		// 	Grid3f f_catche;
-		// 	GridV3f vec_catche;
 
 		Vector3f origin;
-
 		float rhoLiquidRef;
-
-
 		float massLiquid;
-
 		float correctionFactor;
-
-
 		float rhoAirRef;
 		float massAir;
 		Grid3f massGrid_Air;
@@ -271,10 +248,6 @@ namespace mfd {
 		int ny;
 		int nz;
 		int dsize;
-		//int Nx;
-		//int Ny;
-		//int Nz;
-
 		int n_b;
 
 		float V_grid;
@@ -314,7 +287,6 @@ namespace mfd {
 		float* ren_massfield;
 		float ren_mass;
 		bool* ren_marker;
-
 	
 		float* device_ren_massfield;
 		Grid3f device_preMassGrid_Air;
@@ -328,9 +300,7 @@ namespace mfd {
 		Grid3f device_vel_u;
 		Grid3f device_vel_v;
 		GridV3f device_velGrid_phase;
-		//float3* device_posGrid_Air;
-		//float* device_massGrid_phase;
-		//float* preMassGrid_Air;
+
 		float samplingDistance;
 		float* device_vel_u_boundary;
 		float* device_vel_v_boundary;
@@ -338,14 +308,9 @@ namespace mfd {
 		GridV3f device_posGrid_Air;
 		Grid3f Device_field;
 
-		//Grid3f device_d0;
-		//Grid3f device_d;
-
 		Grid3f Device_L_phi;
 		Grid3f Device_L_phi0;
 		Grid3f  Device_cp;
-
-
 
 	};
 }
