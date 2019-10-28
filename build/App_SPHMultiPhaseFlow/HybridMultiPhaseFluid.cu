@@ -1695,42 +1695,42 @@ namespace mfd {
     author@wdy
     describe:Change code of Restriction2D
     */
-	void HybridMultiPhaseFluid::Restriction2D(Grid2f src, Grid2f std)
-	{
-		for (int i = 0; i < src.nx / 2; i++)
-		{
-			for (int j = 0; j < src.ny / 2; j++)
-			{
-				std(i, j) = (src(2 * i, j * 2) / 4 + src(2 * i, 2 * j + 1) / 2 + src(2 * i, 2 * j + 2) / 4 + src(2 * i + 1, 2 * j) / 2 + src(2 * i + 1, 2 * j + 1) + src(2 * i + 1, 2 * j + 2) / 2 + src(2 * i + 2, 2 * j) / 4 + src(2 * i + 2, 2 * j + 1) / 2 + src(2 * i + 2, 2 * j + 2) / 4) / 4;
-			}
-		}
-	}
+	//void HybridMultiPhaseFluid::Restriction2D(Grid2f src, Grid2f std)
+	//{
+	//	for (int i = 0; i < src.nx / 2; i++)
+	//	{
+	//		for (int j = 0; j < src.ny / 2; j++)
+	//		{
+	//			std(i, j) = (src(2 * i, j * 2) / 4 + src(2 * i, 2 * j + 1) / 2 + src(2 * i, 2 * j + 2) / 4 + src(2 * i + 1, 2 * j) / 2 + src(2 * i + 1, 2 * j + 1) + src(2 * i + 1, 2 * j + 2) / 2 + src(2 * i + 2, 2 * j) / 4 + src(2 * i + 2, 2 * j + 1) / 2 + src(2 * i + 2, 2 * j + 2) / 4) / 4;
+	//		}
+	//	}
+	//}
 
 	/*
 	2019/10/27
 	author@wdy
 	describe:Change code of Interplation2D
 	*/
-	void HybridMultiPhaseFluid::Interplation2D(Grid2f src, Grid2f std)
-	{
-		for (int i = 0; i < src.nx; i++)
-		{
-			for (int j = 0; j < src.ny; j++)
-			{
-				std(2 * i, 2 * j) = src(i, j);
-			}
-		}
+	//void HybridMultiPhaseFluid::Interplation2D(Grid2f src, Grid2f std)
+	//{
+	//	for (int i = 0; i < src.nx; i++)
+	//	{
+	//		for (int j = 0; j < src.ny; j++)
+	//		{
+	//			std(2 * i, 2 * j) = src(i, j);
+	//		}
+	//	}
 
-		for (int i = 0; i < src.nx; i++)
-		{
-			for (int j = 0; j < src.ny; j++)
-			{
-				std(2 * i + 1, 2 * j) = (src(i, j) + src(i + 1, j)) / 2;
-				std(2 * i, 2 * j + 1) = (src(i, j) + src(i, j + 1) / 2);
-				std(2 * i + 1, 2 * j + 1) = (src(i, j) + src(i + 1, j) + src(i, j + 1) + src(i + 1, j + 1)) / 4;
-			}
-		}
-	}
+	//	for (int i = 0; i < src.nx; i++)
+	//	{
+	//		for (int j = 0; j < src.ny; j++)
+	//		{
+	//			std(2 * i + 1, 2 * j) = (src(i, j) + src(i + 1, j)) / 2;
+	//			std(2 * i, 2 * j + 1) = (src(i, j) + src(i, j + 1) / 2);
+	//			std(2 * i + 1, 2 * j + 1) = (src(i, j) + src(i + 1, j) + src(i, j + 1) + src(i + 1, j + 1)) / 4;
+	//		}
+	//	}
+	//}
 
 
 	/*
@@ -1738,28 +1738,28 @@ namespace mfd {
 	author@wdy
 	describe:from fine mesh to coarse mesh
 	*/
-	void HybridMultiPhaseFluid::Restriction3D(Grid3f src, Grid3f std)
-	{
-		for (int i = 0; i < src.nx / 2; i++)
-		{
-			for (int j = 0; j < src.ny / 2; j++)
-			{
-				for (int k = 0; k < src.nz / 2; k++)
-				{
-					//约定向里为x轴、向上为y轴、向右为z轴
-					std(i, j, k) =
-						//由下向上，逆时针计算8个顶点
-						+(src(2 * i, 2 * j, 2 * k) + src(2 * i, 2 * j, 2 * k + 2) + src(2 * i + 2, 2 * j, 2 * k + 2) + src(2 * i + 2, 2 * j, 2 * k) + src(2 * i, 2 * j + 2, 2 * k) + src(2 * i, 2 * j + 2, 2 * k + 2) + src(2 * i + 2, 2 * j + 2, 2 * k + 2) + src(2 * i + 2, 2 * j + 2, 2 * k)) / 64
-						//由下向上，逆时针计算边上的12个点
-						+ (src(2 * i + 1, 2 * j, 2 * k) + src(2 * i, 2 * j, 2 * k + 1) + src(2 * i + 1, 2 * j, 2 * k + 2) + src(2 * i + 2, 2 * j, 2 * k + 1) + src(2 * i, 2 * j + 1, 2 * k) + src(2 * i, 2 * j + 1, 2 * k + 2) + src(2 * i + 2, 2 * j + 1, 2 * k + 2) + src(2 * i + 2, 2 * j + 1, 2 * k) + src(2 * i + 1, 2 * j + 2, 2 * k) + src(2 * i, 2 * j + 2, 2 * k + 1) + src(2 * i + 1, 2 * j + 2, 2 * k + 2) + src(2 * i + 2, 2 * j + 2, 2 * k + 1)) / 32
-						//由下向上，左向右，前向后，计算面上的6个点
-						+ (src(2 * i + 1, 2 * j, 2 * k + 1) + src(2 * i + 1, 2 * j + 2, 2 * k + 1) + src(2 * i + 1, 2 * j + 1, 2 * k) + src(2 * i + 1, 2 * j + 1, 2 * k + 2) + src(2 * i, 2 * j + 1, 2 * k + 1) + src(2 * i + 2, 2 * j + 1, 2 * k + 1)) / 16
-						//计算中心的1个点
-						+ src(2 * i + 1, 2 * j + 1, 2 * k + 1) / 8;
-				}
-			}
-		}
-	}
+	//void HybridMultiPhaseFluid::Restriction3D(Grid3f src, Grid3f std)
+	//{
+	//	for (int i = 0; i < src.nx / 2; i++)
+	//	{
+	//		for (int j = 0; j < src.ny / 2; j++)
+	//		{
+	//			for (int k = 0; k < src.nz / 2; k++)
+	//			{
+	//				//约定向里为x轴、向上为y轴、向右为z轴
+	//				std(i, j, k) =
+	//					//由下向上，逆时针计算8个顶点
+	//					+(src(2 * i, 2 * j, 2 * k) + src(2 * i, 2 * j, 2 * k + 2) + src(2 * i + 2, 2 * j, 2 * k + 2) + src(2 * i + 2, 2 * j, 2 * k) + src(2 * i, 2 * j + 2, 2 * k) + src(2 * i, 2 * j + 2, 2 * k + 2) + src(2 * i + 2, 2 * j + 2, 2 * k + 2) + src(2 * i + 2, 2 * j + 2, 2 * k)) / 64
+	//					//由下向上，逆时针计算边上的12个点
+	//					+ (src(2 * i + 1, 2 * j, 2 * k) + src(2 * i, 2 * j, 2 * k + 1) + src(2 * i + 1, 2 * j, 2 * k + 2) + src(2 * i + 2, 2 * j, 2 * k + 1) + src(2 * i, 2 * j + 1, 2 * k) + src(2 * i, 2 * j + 1, 2 * k + 2) + src(2 * i + 2, 2 * j + 1, 2 * k + 2) + src(2 * i + 2, 2 * j + 1, 2 * k) + src(2 * i + 1, 2 * j + 2, 2 * k) + src(2 * i, 2 * j + 2, 2 * k + 1) + src(2 * i + 1, 2 * j + 2, 2 * k + 2) + src(2 * i + 2, 2 * j + 2, 2 * k + 1)) / 32
+	//					//由下向上，左向右，前向后，计算面上的6个点
+	//					+ (src(2 * i + 1, 2 * j, 2 * k + 1) + src(2 * i + 1, 2 * j + 2, 2 * k + 1) + src(2 * i + 1, 2 * j + 1, 2 * k) + src(2 * i + 1, 2 * j + 1, 2 * k + 2) + src(2 * i, 2 * j + 1, 2 * k + 1) + src(2 * i + 2, 2 * j + 1, 2 * k + 1)) / 16
+	//					//计算中心的1个点
+	//					+ src(2 * i + 1, 2 * j + 1, 2 * k + 1) / 8;
+	//			}
+	//		}
+	//	}
+	//}
 
 
 	/*
@@ -1767,30 +1767,30 @@ namespace mfd {
 	author@wdy
 	describe:from coarse mesh to fine mesh
 	*/
-	void HybridMultiPhaseFluid::Interplation3D(Grid3f src, Grid3f std)
-	{
-		for (int i = 0; i < src.nx; i++)
-		{
-			for (int j = 0; j < src.ny; j++)
-			{
-				for (int k = 0; k < src.nz; k++)
-				{
-					//顶点
-					std(2 * i, 2 * j, 2 * k) = src(i, j, k);
-					//边上点
-					std(2 * i + 1, 2 * j, 2 * k) = (src(i, j, k) + src(i + 1, j, k)) / 2;
-					std(2 * i, 2 * j + 1, 2 * k) = (src(i, j, k) + src(i, j + 1, k)) / 2;
-					std(2 * i, 2 * j, 2 * k + 1) = (src(i, j, k) + src(i, j, k + 1)) / 2;
-					//面上点
-					std(2 * i + 1, 2 * j + 1, 2 * k) = (src(i, j, k) + src(i + 1, j, k) + src(i + 1, j + 1, k) + src(i, j + 1, k)) / 4;
-					std(2 * i + 1, 2 * j, 2 * k + 1) = (src(i, j, k) + src(i + 1, j, k) + src(i + 1, j, k + 1) + src(i, j, k + 1)) / 4;
-					std(2 * i, 2 * j + 1, 2 * k + 1) = (src(i, j, k) + src(i, j, k + 1) + src(i, j + 1, k + 1) + src(i, j + 1, k)) / 4;
-					//中心点
-					std(2 * i + 1, 2 * j + 1, 2 * k + 1) = (src(i, j, k) + src(i, j + 1, k) + src(i, j, k + 1) + src(i + 1, j, k) + src(i + 1, j + 1, k) + src(i + 1, j + 1, k + 1) + src(i, j + 1, k + 1) + src(i + 1, j, k + 1)) / 8;
-				}
-			}
-		}
-	}
+	//void HybridMultiPhaseFluid::Interplation3D(Grid3f src, Grid3f std)
+	//{
+	//	for (int i = 0; i < src.nx; i++)
+	//	{
+	//		for (int j = 0; j < src.ny; j++)
+	//		{
+	//			for (int k = 0; k < src.nz; k++)
+	//			{
+	//				//顶点
+	//				std(2 * i, 2 * j, 2 * k) = src(i, j, k);
+	//				//边上点
+	//				std(2 * i + 1, 2 * j, 2 * k) = (src(i, j, k) + src(i + 1, j, k)) / 2;
+	//				std(2 * i, 2 * j + 1, 2 * k) = (src(i, j, k) + src(i, j + 1, k)) / 2;
+	//				std(2 * i, 2 * j, 2 * k + 1) = (src(i, j, k) + src(i, j, k + 1)) / 2;
+	//				//面上点
+	//				std(2 * i + 1, 2 * j + 1, 2 * k) = (src(i, j, k) + src(i + 1, j, k) + src(i + 1, j + 1, k) + src(i, j + 1, k)) / 4;
+	//				std(2 * i + 1, 2 * j, 2 * k + 1) = (src(i, j, k) + src(i + 1, j, k) + src(i + 1, j, k + 1) + src(i, j, k + 1)) / 4;
+	//				std(2 * i, 2 * j + 1, 2 * k + 1) = (src(i, j, k) + src(i, j, k + 1) + src(i, j + 1, k + 1) + src(i, j + 1, k)) / 4;
+	//				//中心点
+	//				std(2 * i + 1, 2 * j + 1, 2 * k + 1) = (src(i, j, k) + src(i, j + 1, k) + src(i, j, k + 1) + src(i + 1, j, k) + src(i + 1, j + 1, k) + src(i + 1, j + 1, k + 1) + src(i, j + 1, k + 1) + src(i + 1, j, k + 1)) / 8;
+	//			}
+	//		}
+	//	}
+	//}
 
 
 
