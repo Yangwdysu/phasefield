@@ -64,12 +64,12 @@ namespace mfd {
 		~HybridMultiPhaseFluid(void);
 		virtual bool Initialize(string in_filename = "NULL");
 		void InitialSeparation();
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 
 
 		void ProjectConstantMAC(Grid3f vel_u, Grid3f vel_v, Grid3f vel_w, Grid3f mass, float h, float rho1, float rho2, float dt);
->>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
+//>>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
 		virtual void StepEuler(float dt);
 		void MarkSolidDomain();
 		void AllocateMemoery(int _np, int _nx, int _ny, int _nz);
@@ -77,12 +77,12 @@ namespace mfd {
 		float CFL();
 		void cudamassGrid_phase(Grid3f& massGrid_phase, GridV3f& posGrid_Air, Vector3f origin, int row, int col, int depth);
 		void cudaAllocateMemoery(int Nx, int Ny, int Nz);
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 		//virtual void StepEuler(float dt);
 		void SetScalarFieldBoundary1(Grid3f& field, bool postive);
 		void AdvectWENO1rd(Grid3f& d, Grid3f& d0, Grid3f& u, Grid3f& v, Grid3f& w, float dt);
->>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
+//>>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
 		void cudaAdvectForward(Grid3f d, Grid3f d0, GridV3f v, float dt);
 		void cudaUpdatePhi(Grid3f& device_d, Grid3f& device_d0, GridV3f v, float dt);
 		void cudaSetScalarFieldBoundary(Grid3f& Device_field, bool postive);
