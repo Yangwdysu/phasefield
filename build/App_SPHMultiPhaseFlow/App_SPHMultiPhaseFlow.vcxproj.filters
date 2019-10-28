@@ -27,6 +27,18 @@
     <ClInclude Include="HybridMultiPhaseFluid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pcgsolver\blas_wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pcgsolver\pcg_solver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pcgsolver\sparse_matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pcgsolver\Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

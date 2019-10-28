@@ -167,6 +167,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HybridMultiPhaseFluid.h" />
+    <ClInclude Include="pcgsolver\blas_wrapper.h" />
+    <ClInclude Include="pcgsolver\pcg_solver.h" />
+    <ClInclude Include="pcgsolver\sparse_matrix.h" />
+    <ClInclude Include="pcgsolver\Util.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
