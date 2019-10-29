@@ -1008,8 +1008,6 @@ namespace mfd {
 				atomicAdd(&(d[k0]), -weight*dc);
 				atomicAdd(&(d[k1]), weight*dc);
 
-
-
 			}
 
 			ix0 = i; iy0 = j; iz0 = k;
@@ -1790,7 +1788,7 @@ namespace mfd {
 			RHS(i, j, k) = div_ijk;//度散
 		}
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 
 	/*
@@ -1804,7 +1802,7 @@ namespace mfd {
 		D_Divergence_velv.CopyFromHostToDevice(H_velv);
 		D_Divergence_velw.CopyFromHostToDevice(H_velw);
 		D_Divergence_mass.CopyFromHostToDevice(H_mass);
-=======
+//=======
 	
 	void HybridMultiPhaseFluid::PrepareForProjection(GridCoef coefMatrix, Grid3f RHS,Grid3f vel_hu, Grid3f vel_hv, Grid3f vel_hw,Grid3f mass_host, float subtep)
 	{
@@ -1812,7 +1810,7 @@ namespace mfd {
 		Div_velu.CopyFromHostToDevice(vel_hu);
 		Div_velv.CopyFromHostToDevice(vel_hv);
 		Div_velw.CopyFromHostToDevice(vel_hw);
->>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
+//>>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
 
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
@@ -1924,12 +1922,12 @@ namespace mfd {
 	author@wdy
 	describe:sovle pressure
 	*/
-	void HybridMultiPhaseFluid::Projection(Grid3f H_pressure, GridCoef H_coefMatrix, Grid3f H_RHS, int numIter, float dt)
+	/*void HybridMultiPhaseFluid::Projection(Grid3f H_pressure, GridCoef H_coefMatrix, Grid3f H_RHS, int numIter, float dt)
 	{
 		D_Projection_RHS.CopyFromHostToDevice(H_RHS);
 		D_Projection_coefMatrix.CopyFromHostToDevice(H_coefMatrix);
 		dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
-		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
+		dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);*/
 //=======
 
 	//4、压力求解
@@ -2059,7 +2057,7 @@ namespace mfd {
 			c = c < 0.0f ? 0.0f : c;
 			vel_w(i, j, k) -= dt*(pressure[index] - pressure[index - nxy]) / h / (c*RHO1 + (1.0f - c)*RHO2);
 		}
->>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
+//>>>>>>> c0cc691ea1275cdadd2191b736b77165d2f89098
 	}
 
 
