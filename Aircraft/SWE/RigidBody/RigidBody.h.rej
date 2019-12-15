@@ -1,0 +1,27 @@
+diff a/SWE/RigidBody/RigidBody.h b/SWE/RigidBody/RigidBody.h	(rejected hunks)
+@@ -51,17 +51,25 @@
+ 	float getRoll() { return m_roll; }
+ 
+ 	//yaw: z����ת��pitch��y����ת��roll��x����ת
++	void setEulerAngles(float yaw, float pitch, float roll);
+ 	void getEulerAngle(float& yaw, float& pitch, float& roll);
+ 	Quaternion<float> getQuaternian(float yaw, float pitch, float roll);
+ 	void setQuaternian(Quaternion<float> quat);
++	void adjustEulerAngles(float dRoll, float dPitch, float dYaw);
++	void addPitch(float dp);
++	void addRoll(float dr);
+ 	Quaternion<float> getQuaternian() { return m_quaternion; }
+ 
+ 	void setImpetus(float acc);
+ 	void setVelocityDamping(float d);
+ 
++	void enableAutomaticRecovering() { m_enableAutomaticRecover = true; }
++	void disableAutomaticRecovering() { m_enableAutomaticRecover = false; }
++
+ public:
+ 	void constrainEulerAngles();
+ 
++	float m_sign = 1.0f;
+ 	float3 scale;
+ 
+ 	bool m_renderReady;

@@ -1,0 +1,10 @@
+diff a/SWE/RigidBody/RigidBody.cpp b/SWE/RigidBody/RigidBody.cpp	(rejected hunks)
+@@ -17,7 +17,7 @@
+ 	m_roll = 0.0f;
+ 	m_acceleration = 0.0f;
+ 	m_damping = 0.9f;
+-	m_recoverSpeed = 0.2f;
++	m_recoverSpeed = 0.1f;
+ 	m_maxTransVel = 10.0f;
+ 	m_maxAngularVel = 3.0f;
+ 	m_renderReady = false;

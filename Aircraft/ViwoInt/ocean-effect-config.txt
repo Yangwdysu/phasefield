@@ -1,0 +1,11 @@
+﻿线框模式  0
+
+仿真船数量 1
+
+船转动惯量scale  1e9
+船初始坐标		128 5 128
+船质量			1e6
+船damping		0.9
+船patch覆盖物理长度  512
+船采样点文件       ../../App.Effect/newOcean/FluidRigidInteraction/SWE/res/points.obj
+船模型文件          ../../App.Effect/newOcean/FluidRigidInteraction/SWE/res/points.obj

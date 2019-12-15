@@ -1,0 +1,361 @@
+#define GLM_FORCE_PURE
+#include <glm/glm.hpp>
+#include "Coupling.h"
+#include "RigidBody.h"
+#include <cuda_runtime.h>
+#include "../cuda_helper_math.h"
+#include "cuda_utilities.h"
+#include <math.h>
+#include <iostream>
+#include "stdio.h"
+
+#define BLOCKSIZE_X 16
+#define BLOCKSIZE_Y 16
+#define mf 0.000001
+
+Coupling::Coupling(OceanPatch* ocean_patch)
+{
+	m_ocean_patch = ocean_patch;
+	m_origin = make_float2(0.0f);
+
+	m_trail = NULL;
+	m_boat = NULL;
+
+	m_force_corrected = false;
+
+	m_heightShift = 6.0f;
+}
+
+Coupling::~Coupling()
+{
+	cudaFree(m_forceX);
+	cudaFree(m_forceY);
+	cudaFree(m_forceZ);
+	cudaFree(m_torqueX);
+	cudaFree(m_torqueY);
+	cudaFree(m_torqueZ);
+	cudaFree(m_sample_heights);
+//	cudaFree(m_oceanCentroid);
+}
+
+__device__ float4 getDisplacement(float3 pos, float4* oceanPatch, float2 origin, float patchSize, int gridSize)
+{
+	float2 uv_i = (make_float2(pos.x, pos.z) - origin) / patchSize;
+	float u = (uv_i.x - floor(uv_i.x))*gridSize;
+	float v = (uv_i.y - floor(uv_i.y))*gridSize;
+	int i = floor(u);
+	int j = floor(v);
+	float fx = u - i;
+	float fy = v - j;
+	if (i == gridSize - 1)
+	{
+		i = gridSize - 2;
+		fx = 1.0f;
+	}
+	if (j == gridSize - 1)
+	{
+		j = gridSize - 2;
+		fy = 1.0f;
+	}
+	int id = i + j*gridSize;
+	float4 d00 = oceanPatch[id];
+	float4 d10 = oceanPatch[id + 1];
+	float4 d01 = oceanPatch[id + gridSize];
+	float4 d11 = oceanPatch[id + gridSize + 1];
+
+	return d00*(1 - fx)*(1 - fy) + d10*fx*(1 - fy) + d01*(1 - fx)*fy + d11*fx*fy;
+}
+
+
+__global__ void C_ComputeForceAndTorque(
+	float* forceX,
+	float* forceY,
+	float* forceZ,
+	float* torqueX,
+	float* torqueY,
+	float* torqueZ,
+	float* sampleHeights,
+	float3* normals,
+	float3* samples,
+	float4* ocean,
+	glm::vec3 boatCenter,
+	glm::mat3 rotation,
+	float2 origin,
+	int numOfSamples,
+	float patchSize,
+	int gridSize)
+{
+	int pId = threadIdx.x + blockIdx.x * blockDim.x;
+	if (pId < numOfSamples)
+	{
+		float3 dir_i = samples[pId];
+		glm::vec3 rotDir = rotation*glm::vec3(dir_i.x, dir_i.y, dir_i.z);
+		glm::vec3 pos_i = boatCenter + rotation*glm::vec3(dir_i.x, dir_i.y, dir_i.z);
+		float4 dis_i = getDisplacement(make_float3(pos_i.x, pos_i.y, pos_i.z), ocean, origin, patchSize, gridSize);
+		float3 normal_i = normals[pId];
+		float3 force_i = make_float3(0.0f);
+		float3 torque_i = make_float3(0.0f);
+
+		if (pos_i.y < dis_i.y)
+		{
+			force_i = 9800.0f*normal_i*(dis_i.y - pos_i.y);
+			torque_i =  make_float3(0.0f, 9800.0f, 0.0f)*(dis_i.y - pos_i.y);
+		}
+		
+		torque_i = cross(make_float3(rotDir.x, rotDir.y, rotDir.z), torque_i);
+		forceX[pId] = force_i.x;
+		forceY[pId] = force_i.y;
+		forceZ[pId] = force_i.z;
+		torqueX[pId] = torque_i.x;
+		torqueY[pId] = torque_i.y;
+		torqueZ[pId] = torque_i.z;
+		sampleHeights[pId] = dis_i.y;
+	}
+	
+}
+
+__global__ void C_ComputeElevation(
+	float3* displacement,
+	float3 pos,
+	float4* ocean,
+	float2 origin,
+	float patchSize,
+	int gridSize)
+{
+	float4 tmp = getDisplacement(pos, ocean, origin, patchSize, gridSize);
+	displacement[0] = make_float3(tmp.x, tmp.y, tmp.z);
+}
+
+__global__ void C_ComputeTrail(
+	float2* trails,
+	int trail_size,
+	float2 trail_origin,
+	float trail_grid_distance,
+	float3* samples,
+	int sample_size,
+	glm::vec2 boat_velocity,
+	glm::vec3 boat_center,
+	glm::mat3 boat_rotation)
+{
+	int pId = threadIdx.x + blockIdx.x * blockDim.x;
+	if (pId < sample_size)
+	{
+		float3 dir_i = samples[pId];
+		if (abs(dir_i.z) < 5.0f && abs(dir_i.x) < 40.0f)
+		{
+			glm::vec3 pos_i = boat_center + boat_rotation*glm::vec3(dir_i.x, dir_i.y, dir_i.z);
+			float2 local_pi = (make_float2(pos_i.x, pos_i.z) - trail_origin) / trail_grid_distance;
+			int i = floor(local_pi.x);
+			int j = floor(local_pi.y);
+
+			float2 uv = make_float2(1.0f);
+			trails[i + j*trail_size] = 0.03f*make_float2(boat_velocity.x, boat_velocity.y);
+
+			//printf("%d, %d, %f %f \n", i, j, trails[i + j * trail_size].x, trails[i + j * trail_size].y);
+		}
+	}
+}
+
+void Coupling::animate(float dt)
+{
+	synchronCheck;
+	unsigned int pDims = Physika::cudaGridSize((unsigned int)m_boat->getSamplingPointSize(), 64);
+
+	C_ComputeForceAndTorque << <pDims, 64 >> > (
+		m_forceX,
+		m_forceY,
+		m_forceZ,
+		m_torqueX,
+		m_torqueY,
+		m_torqueZ,
+		m_sample_heights,
+		m_boat->getNormals(),
+		m_boat->getSamples(),
+		m_ocean_patch->getDisplacement(),
+		m_boat->getCenter(),
+		m_boat->getOrientation(),
+		m_origin,
+		m_boat->getSamplingPointSize(),
+		m_ocean_patch->getPatchSize(),
+		m_ocean_patch->getGridSize());
+	synchronCheck;
+<<<<<<< HEAD
+// 	C_ComputeElevation << < 1, 1 >> > (
+// 		m_oceanCentroid,
+// 		make_float3(m_boat->getCenter().x, m_boat->getCenter().y, m_boat->getCenter().z),
+// 		m_ocean_patch->getDisplacement(),
+// 		m_origin,
+// 		m_ocean_patch->getPatchSize(),
+// 		m_ocean_patch->getGridSize());
+// 	synchronCheck;
+// 	float3 oceanCenter;
+// 	cudaMemcpy(&oceanCenter, m_oceanCentroid, sizeof(float3), cudaMemcpyDeviceToHost);
+=======
+	//C_ComputeElevation << < 1, 1 >> > (
+	//	m_oceanCentroid,
+	//	make_float3(m_boat->getCenter().x, m_boat->getCenter().y, m_boat->getCenter().z),
+	//	m_ocean_patch->getDisplacement(),
+	//	m_origin,
+	//	m_ocean_patch->getPatchSize(),
+	//	m_ocean_patch->getGridSize());
+	//synchronCheck;
+	//float3 oceanCenter;
+	//cudaMemcpy(&oceanCenter, m_oceanCentroid, sizeof(float3), cudaMemcpyDeviceToHost);
+>>>>>>> bcea31b6f20567571c494a7ef76c618a8d81572b
+
+	float fx = m_reduce->Accumulate(m_forceX, m_boat->getSamplingPointSize());
+	float fy = m_reduce->Accumulate(m_forceY, m_boat->getSamplingPointSize());
+	float fz = m_reduce->Accumulate(m_forceZ, m_boat->getSamplingPointSize());
+
+	float tx = m_reduce->Accumulate(m_torqueX, m_boat->getSamplingPointSize());
+	float ty = m_reduce->Accumulate(m_torqueY, m_boat->getSamplingPointSize());
+	float tz = m_reduce->Accumulate(m_torqueZ, m_boat->getSamplingPointSize());
+
+	float h = m_reduce->Accumulate(m_sample_heights, m_boat->getSamplingPointSize());
+
+
+// 	std::cout << "Center: " << m_rigids->getCenter().x << " " << m_rigids->getCenter().y << " " << m_rigids->getCenter().z << std::endl;
+// 	std::cout << "Velocity: " << m_rigids->getVelocity().x << " " << m_rigids->getVelocity().y << " " << m_rigids->getVelocity().z << std::endl;
+// 	std::cout << "Angular V: " << m_rigids->getAngularVelocity().x << " " << m_rigids->getAngularVelocity().y << " " << m_rigids->getAngularVelocity().z << std::endl;
+// 	std::cout << "Euler: " << m_rigids->getYaw() << " " << m_rigids->getPitch() << " " << m_rigids->getRoll() << std::endl;
+
+	int num = m_boat->getSamplingPointSize();
+
+	glm::vec3 force = glm::vec3(fx / num, 0.0f, fz / num);
+	glm::vec3 torque = glm::vec3(tx / num, ty / num, tz / num);
+	if (!m_force_corrected)
+	{
+		m_force_corrector = force;
+		m_torque_corrector = torque;
+		m_force_corrected = true;
+	}
+
+	m_boat->update(force - m_force_corrector, torque - m_torque_corrector, dt);
+//	std::cout << "Angular Force: " << tx << " " << ty << " " << tz << std::endl;
+	//m_boat->update(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(tx / num, ty / num, tz / num), dt);
+	m_boat->advect(dt);
+	synchronCheck;
+	glm::vec3 center = m_boat->getCenter();
+	center.y = h / m_boat->getSamplingPointSize() + m_heightShift;
+	m_boat->setCenter(center);
+
+	int originX = m_trail->getOriginX();
+	int originZ = m_trail->getOriginZ();
+
+	float dg = m_trail->getRealGridSize();
+	int gridSize = m_trail->getGridSize();
+	int new_x = floor(center.x / dg) - gridSize / 2;
+	int new_z = floor(center.z / dg) - gridSize / 2;
+
+// 	auto lc = getLocalBoatCenter();
+// 	std::cout << "Center: " << lc.x << " " << lc.y << std::endl;
+
+	//new_x = max(0, min(new_x, 3 * gridSize));
+	//new_z = max(0, min(new_z, 3 * gridSize));
+	m_trail->moveDynamicRegion(new_x - originX, new_z - originZ);
+	m_trail->animate(dt);
+	//synchronCheck;
+	m_trail->resetSource();
+	glm::vec3 v = m_boat->getVelocity();
+<<<<<<< HEAD
+	
+	glm::vec3 an = m_boat->getAngularVelocity();
+	std::cout << m_name << " velocity: " << v.x << " " << v.z << std::endl;
+	std::cout << m_name << " angular velocity: " << an.x << " " << an.y << " " << an.z << std::endl;
+=======
+	v.x = min(v.x, 10.0f);
+	v.x = max(v.x, -10.0f);
+	v.z = min(v.z, 10.0f);
+	v.z = max(v.z, -10.0f);
+	//printf("boat velocity (%f, %f)\n", v.x, v.y);
+>>>>>>> bcea31b6f20567571c494a7ef76c618a8d81572b
+
+	C_ComputeTrail << <pDims, 64 >> > (
+		m_trail->getSource(),
+		m_trail->getGridSize(),
+		m_trail->getOrigin(),
+		m_trail->getRealGridSize(),
+		m_boat->getSamples(),
+		m_boat->getSamplingPointSize(),
+		glm::vec2(v.x, v.z),
+		m_boat->getCenter(),
+		m_boat->getOrientation());
+	synchronCheck;
+}
+
+void Coupling::setHeightShift(float shift)
+{
+	m_heightShift = shift;
+}
+
+void Coupling::steer(float degree)
+{
+	float yaw, pitch, roll;
+	m_boat->getEulerAngle(yaw, pitch, roll);
+	yaw += degree;
+
+//	std::cout << "yaw: " << yaw << std::endl;
+// 	m_boat->setQuaternian(m_boat->getQuaternian(yaw, pitch, roll));
+// 	m_boat->getEulerAngle(yaw, pitch, roll);
+
+// 	yaw = 0.1f;
+// 	pitch = 0.2f;
+// 	roll = 0.1f;
+	m_boat->setQuaternian(m_boat->getQuaternian(yaw, pitch, roll));
+
+// 	float newY, newP, newR;
+// 	m_boat->getEulerAngle(newY, newP, newR);
+// 	glm::vec3 dif = glm::vec3(newY - yaw, newP - pitch, newR - roll);
+// 	if (glm::length(dif) > EPSILON)
+// 	{
+// 		printf("*************Rotation Error: %f \n" , glm::length(dif));
+// 	}
+
+}
+
+void Coupling::propel(float acceleration)
+{
+	m_boat->setImpetus(acceleration);
+}
+
+float2 Coupling::getLocalBoatCenter()
+{
+	glm::vec3 center = m_boat->getCenter();
+	float2 waveOrigin = m_trail->getOrigin();
+	float dg = m_trail->getRealGridSize();
+	int resolution = m_trail->getGridSize();
+	return make_float2((center.x - waveOrigin.x) / dg, (center.z - waveOrigin.y) / dg)/resolution;
+}
+
+RigidBody* Coupling::getBoat()
+{
+	return m_boat;
+}
+
+CapillaryWave* Coupling::getTrail()
+{
+	return m_trail;
+}
+
+void Coupling::initialize(RigidBody * boat, CapillaryWave* wave)
+{
+	m_trail = wave;
+	m_boat = boat;
+
+	int sizeInBytes = boat->getSamplingPointSize() * sizeof(float3);
+	int sizeInBytesF = boat->getSamplingPointSize() * sizeof(float);
+
+	m_reduce = Physika::Reduction<float>::Create(boat->getSamplingPointSize());
+
+	cudaMalloc(&m_forceX, sizeInBytesF);
+	cudaMalloc(&m_forceY, sizeInBytesF);
+	cudaMalloc(&m_forceZ, sizeInBytesF);
+	cudaMalloc(&m_torqueX, sizeInBytesF);
+	cudaMalloc(&m_torqueY, sizeInBytesF);
+	cudaMalloc(&m_torqueZ, sizeInBytesF);
+
+	cudaMalloc(&m_sample_heights, sizeInBytesF);
+
+//	cudaMalloc(&m_oceanCentroid, sizeof(float3));
+}
+
