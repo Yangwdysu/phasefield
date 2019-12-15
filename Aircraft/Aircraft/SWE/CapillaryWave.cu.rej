@@ -1,0 +1,23 @@
++__global__ void C_InitHeightGrad(
++	float4* height,
++	int patchSize)
++{
++	int i = threadIdx.x + blockIdx.x * blockDim.x;
++	int j = threadIdx.y + blockIdx.y * blockDim.y;
++	if (i < patchSize && j < patchSize)
++	{
++		int i_minus_one = (i - 1 + patchSize) % patchSize;
++		int i_plus_one = (i + 1) % patchSize;
++		int j_minus_one = (j - 1 + patchSize) % patchSize;
++		int j_plus_one = (j + 1) % patchSize;
++
++		float4 Dx = (height[i_plus_one + j * patchSize] - height[i_minus_one + j * patchSize]) / 2;
++		float4 Dz = (height[i + j_plus_one * patchSize] - height[i + j_minus_one * patchSize]) / 2;
++
++		height[i+patchSize * j].z = Dx.y;
++		height[i+patchSize * j].w = Dz.y;
++
++		// x component stores the original height, y component stores the normalized height, z component stores the X gradient, w component stores the Z gradient;
+ 	}
+ }
+ 

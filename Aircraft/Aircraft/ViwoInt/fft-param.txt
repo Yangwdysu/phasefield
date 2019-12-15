@@ -1,0 +1,6 @@
+﻿风级文件地址   ../../App.Effect/newOcean/FluidRigidInteraction/SWE/windparam.txt
+fft分辨率  512
+fft物理长度	10
+浪高     11
+choppiness 0.1
+水流速度  3

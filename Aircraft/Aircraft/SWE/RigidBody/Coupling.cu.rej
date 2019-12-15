@@ -1,0 +1,46 @@
+diff a/SWE/RigidBody/Coupling.cu b/SWE/RigidBody/Coupling.cu	(rejected hunks)
+@@ -87,6 +87,44 @@
+ }
+ 
+ 
++__global__ void C_ComputeInitialState(
++	float* forceX,
++	float* forceY,
++	float* forceZ,
++	float* torqueX,
++	float* torqueY,
++	float* torqueZ,
++	float3* samples,
++	float3* normals,
++	glm::vec3 boatCenter,
++	glm::mat3 boatRotation,
++	int numOfSamples)
++{
++	int pId = threadIdx.x + blockIdx.x * blockDim.x;
++	if (pId < numOfSamples)
++	{
++		float3 dir_i = samples[pId];
++		float3 normal_i = normals[pId];
++		glm::vec3 rotDir = boatRotation*glm::vec3(dir_i.x, dir_i.y, dir_i.z);
++		glm::vec3 pos_i = boatCenter + boatRotation*glm::vec3(dir_i.x, dir_i.y, dir_i.z);
++		float3 force_i = make_float3(0.0f);
++		float3 torque_i = make_float3(0.0f);
++		if (pos_i.y < 0.0f)
++		{
++			force_i = 9800.0f*normal_i*(0.0f - pos_i.y);
++			torque_i = cross(make_float3(rotDir.x, rotDir.y, rotDir.z), make_float3(0.0f, 9800.0f, 0.0f)*(0.0f - pos_i.y));
++		}
++
++		forceX[pId] = force_i.x;
++		forceY[pId] = force_i.y;
++		forceZ[pId] = force_i.z;
++		torqueX[pId] = torque_i.x;
++		torqueY[pId] = torque_i.y;
++		torqueZ[pId] = torque_i.z;
++	}
++
++}
++
+ __global__ void C_ComputeForceAndTorque(
+ 	float* forceX,
+ 	float* forceY,

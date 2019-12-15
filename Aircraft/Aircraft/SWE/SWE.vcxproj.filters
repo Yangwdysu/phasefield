@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="Ocean.cu" />
+    <CudaCompile Include="OceanPatch.cu" />
+    <CudaCompile Include="RigidBody\Reduction.cu" />
+    <CudaCompile Include="CapillaryWave.cu" />
+    <CudaCompile Include="RigidBody\Coupling.cu">
+      <Filter>RigidBody</Filter>
+    </CudaCompile>
+    <CudaCompile Include="PhaseField.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glwindow.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="timing.cpp" />
+    <ClCompile Include="RigidBody\RigidBody.cpp">
+      <Filter>RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody\quaternion.cpp">
+      <Filter>RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody\SurfaceMesh.cpp">
+      <Filter>RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_utilities.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="glwindow.h" />
+    <ClInclude Include="timing.h" />
+    <ClInclude Include="types.h" />
+    <ClInclude Include="Ocean.h" />
+    <ClInclude Include="cuda_helper_math.h" />
+    <ClInclude Include="OceanPatch.h" />
+    <ClInclude Include="CapillaryWave.h" />
+    <ClInclude Include="RigidBody\RigidBody.h">
+      <Filter>RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody\quaternion.h">
+      <Filter>RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody\SurfaceMesh.h">
+      <Filter>RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody\helper_math.h">
+      <Filter>RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody\Coupling.h">
+      <Filter>RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody\cuda_utilities.h" />
+    <ClInclude Include="RigidBody\Functional.h" />
+    <ClInclude Include="RigidBody\Reduction.h" />
+    <ClInclude Include="RigidBody\sharedmem.h" />
+    <ClInclude Include="gl_utilities.h" />
+    <ClInclude Include="PhaseField.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="RigidBody">
+      <UniqueIdentifier>{403bf852-3adf-4870-aa77-ce1834d68b88}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config3d.txt" />
+  </ItemGroup>
+</Project>

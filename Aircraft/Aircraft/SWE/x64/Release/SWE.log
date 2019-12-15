@@ -1,0 +1,348 @@
+﻿  Compiling CUDA source file PhaseField.cu...
+  Compiling CUDA source file RigidBody\Coupling.cu...
+  
+  F:\vs_project\test11\Aircraft\Aircraft\SWE>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -x cu -rdc=true -I"..\extern\glew-1.12.0\include" -I..\extern\freeglut\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include" -IF:\vs_project\test11\Aircraft\Aircraft\SWE -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -DGLM_FORCE_PURE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc140.pdb /FS /Zi  /MD " -o x64\Release\PhaseField.cu.obj "F:\vs_project\test11\Aircraft\Aircraft\SWE\PhaseField.cu" 
+  
+  F:\vs_project\test11\Aircraft\Aircraft\SWE>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -x cu -rdc=true -I"..\extern\glew-1.12.0\include" -I..\extern\freeglut\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include" -IF:\vs_project\test11\Aircraft\Aircraft\SWE -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -DGLM_FORCE_PURE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc140.pdb /FS /Zi  /MD " -o x64\Release\Coupling.cu.obj "F:\vs_project\test11\Aircraft\Aircraft\SWE\RigidBody\Coupling.cu" 
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_double_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__device_builtin__”: 宏重定义
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_double_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(1): warning C4005: “GLM_FORCE_PURE”: 宏重定义
+f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__device_builtin__”: 宏重定义
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\cuda_utilities.h(30): warning C4005: “EPSILON”: 宏重定义
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\cuda_utilities.h(35): warning C4005: “cudaCheck”: 宏重定义
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(270): warning : variable "error" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(421): warning : variable "dx" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(422): warning : variable "T" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(471): warning : parameter "max_velu" was set but never used
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(506): warning : variable "max_velu" is used before its value is set
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(798): warning : variable "vel_ijk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(977): warning : variable "S" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1122): warning : variable "nk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1123): warning : variable "nij" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1146): warning : variable "nk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1147): warning : variable "nij" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1171): warning : variable "nk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(16): warning : function "printmat4" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(25): warning : function "printmat3" was declared but never referenced
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_double_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__device_builtin__”: 宏重定义
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(776): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt/device_functions.h(1636): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_double_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(1): warning C4005: “GLM_FORCE_PURE”: 宏重定义
+f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__device_builtin__”: 宏重定义
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\cuda_utilities.h(30): warning C4005: “EPSILON”: 宏重定义
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\cuda_utilities.h(35): warning C4005: “cudaCheck”: 宏重定义
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(506): warning : variable "max_velu" is used before its value is set
+  PhaseField.cu
+  Coupling.cu
+f:\vs_project\test11\aircraft\aircraft\swe\OceanPatch.h(35): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(270): warning C4101: “error”: 未引用的局部变量
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\vs_project\test11\aircraft\aircraft\swe\phasefield.cu(506): warning C4700: 使用了未初始化的局部变量“max_velu”
+f:\vs_project\test11\aircraft\aircraft\swe\OceanPatch.h(35): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\../CapillaryWave.h(34): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(231): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(301): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(302): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(332): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(333): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(391): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(420): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(481): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(517): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(518): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(547): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/RigidBody/Coupling.cu(548): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(2624): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(3462): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(4411): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(5309): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(6217): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7097): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(7901): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “Physika::Reduction<int> *Physika::Reduction<int>::Create(int)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(10): note: 参见“Physika::Reduction<int>::Create”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “Physika::Reduction<int>::~Reduction(void)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(11): note: 参见“Physika::Reduction<int>::~Reduction”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Accumulate(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(13): note: 参见“Physika::Reduction<int>::Accumulate”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Maximum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(15): note: 参见“Physika::Reduction<int>::Maximum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Minimum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(17): note: 参见“Physika::Reduction<int>::Minimum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Average(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(19): note: 参见“Physika::Reduction<int>::Average”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “Physika::Reduction<float> *Physika::Reduction<float>::Create(int)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(10): note: 参见“Physika::Reduction<float>::Create”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “Physika::Reduction<float>::~Reduction(void)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(11): note: 参见“Physika::Reduction<float>::~Reduction”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Accumulate(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(13): note: 参见“Physika::Reduction<float>::Accumulate”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Maximum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(15): note: 参见“Physika::Reduction<float>::Maximum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Minimum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(17): note: 参见“Physika::Reduction<float>::Minimum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Average(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(19): note: 参见“Physika::Reduction<float>::Average”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “Physika::Reduction<double> *Physika::Reduction<double>::Create(int)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(10): note: 参见“Physika::Reduction<double>::Create”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “Physika::Reduction<double>::~Reduction(void)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(11): note: 参见“Physika::Reduction<double>::~Reduction”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Accumulate(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(13): note: 参见“Physika::Reduction<double>::Accumulate”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Maximum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(15): note: 参见“Physika::Reduction<double>::Maximum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Minimum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(17): note: 参见“Physika::Reduction<double>::Minimum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Average(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(19): note: 参见“Physika::Reduction<double>::Average”的声明
+  glwindow.cpp
+f:\vs_project\test11\aircraft\aircraft\swe\RigidBody/RigidBody.h(3): warning C4005: “GLM_FORCE_PURE”: 宏重定义
+  f:\vs_project\test11\aircraft\aircraft\swe\RigidBody/RigidBody.h(3): note: 命令行参数: 参见前面的“GLM_FORCE_PURE”定义
+f:\vs_project\test11\aircraft\aircraft\swe\OceanPatch.h(35): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+f:\vs_project\test11\aircraft\aircraft\swe\CapillaryWave.h(34): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+glwindow.cpp(535): warning C4244: “=”: 从“long”转换到“float”，可能丢失数据
+glwindow.cpp(573): warning C4244: “参数”: 从“double”转换到“unsigned int”，可能丢失数据
+glwindow.cpp(729): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+glwindow.cpp(730): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+glwindow.cpp(731): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “Physika::Reduction<int> *Physika::Reduction<int>::Create(int)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(10): note: 参见“Physika::Reduction<int>::Create”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “Physika::Reduction<int>::~Reduction(void)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(11): note: 参见“Physika::Reduction<int>::~Reduction”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Accumulate(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(13): note: 参见“Physika::Reduction<int>::Accumulate”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Maximum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(15): note: 参见“Physika::Reduction<int>::Maximum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Minimum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(17): note: 参见“Physika::Reduction<int>::Minimum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(32): warning C4661: “int Physika::Reduction<int>::Average(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=int
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(19): note: 参见“Physika::Reduction<int>::Average”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “Physika::Reduction<float> *Physika::Reduction<float>::Create(int)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(10): note: 参见“Physika::Reduction<float>::Create”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “Physika::Reduction<float>::~Reduction(void)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(11): note: 参见“Physika::Reduction<float>::~Reduction”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Accumulate(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(13): note: 参见“Physika::Reduction<float>::Accumulate”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Maximum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(15): note: 参见“Physika::Reduction<float>::Maximum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Minimum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(17): note: 参见“Physika::Reduction<float>::Minimum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(33): warning C4661: “float Physika::Reduction<float>::Average(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=float
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(19): note: 参见“Physika::Reduction<float>::Average”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “Physika::Reduction<double> *Physika::Reduction<double>::Create(int)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(10): note: 参见“Physika::Reduction<double>::Create”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “Physika::Reduction<double>::~Reduction(void)”: 没有为显式模板实例化请求提供适当的定义
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(11): note: 参见“Physika::Reduction<double>::~Reduction”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Accumulate(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(13): note: 参见“Physika::Reduction<double>::Accumulate”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Maximum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(15): note: 参见“Physika::Reduction<double>::Maximum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Minimum(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(17): note: 参见“Physika::Reduction<double>::Minimum”的声明
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(34): warning C4661: “double Physika::Reduction<double>::Average(T *,int)”: 没有为显式模板实例化请求提供适当的定义
+          with
+          [
+              T=double
+          ]
+  f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\Reduction.h(19): note: 参见“Physika::Reduction<double>::Average”的声明
+  
+  F:\vs_project\test11\Aircraft\Aircraft\SWE>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -dlink -o x64\Release\SWE.device-link.obj -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MD " -L..\extern\freeglut\lib\x64 -L"..\extern\glew-1.12.0\lib\Release\x64" -LC:\Libs\Bullet\libs -L"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib freeglut.lib glew32.lib cudart_static.lib cufft.lib  -gencode=arch=compute_30,code=sm_30  --machine 64 x64\Release\CapillaryWave.cu.obj x64\Release\OceanPatch.cu.obj x64\Release\PhaseField.cu.obj x64\Release\Reduction.cu.obj x64\Release\Ocean.cu.obj x64\Release\Coupling.cu.obj 
+  cudart.lib
+  kernel32.lib
+  user32.lib
+  gdi32.lib
+  winspool.lib
+  comdlg32.lib
+  advapi32.lib
+  shell32.lib
+  ole32.lib
+  oleaut32.lib
+  uuid.lib
+  odbc32.lib
+  odbccp32.lib
+  freeglut.lib
+  glew32.lib
+  cudart_static.lib
+  cufft.lib
+  CapillaryWave.cu.obj
+  OceanPatch.cu.obj
+  PhaseField.cu.obj
+  Reduction.cu.obj
+  Ocean.cu.obj
+  Coupling.cu.obj
+  正在生成代码
+  32 of 551 functions ( 5.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  SWE.vcxproj -> F:\vs_project\test11\Aircraft\Aircraft\x64\Release\SWE.exe
+  SWE.vcxproj -> F:\vs_project\test11\Aircraft\Aircraft\x64\Release\SWE.pdb (Full PDB)
+  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart*.dll" "F:\vs_project\test11\Aircraft\Aircraft\x64\Release\"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart32_92.dll
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart64_92.dll
+  已复制         2 个文件。
