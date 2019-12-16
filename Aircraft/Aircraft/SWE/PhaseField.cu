@@ -13,7 +13,7 @@
 #include "gl_utilities.h"
 #include <time.h>
 #include "PhaseField.h"
-//#include"Ocean.h"
+#include"Ocean.h"
 #include <iostream>
 
 #define BLOCK_SIZE 16
@@ -67,9 +67,9 @@ PhaseField::PhaseField(int size, float patchLength)
 
 	m_fft_size = 128;
 
-	simulatedRegionLenght = size;
-	simulatedRegionWidth = size;
-	simulatedRegionHeight = size;
+	simulatedRegionLenght = m_fft_size;
+	simulatedRegionWidth = m_fft_size;
+	simulatedRegionHeight = m_fft_size;
 
 	AllocateMemoery(m_fft_size, m_fft_size, m_fft_size);
 
@@ -185,7 +185,8 @@ __global__ void C_PhaseChange(float* phasefield, rgb* color, int nx, int ny, int
 }
 
 void PhaseField::initDynamicRegion()
-{
+{	
+	cudaError_t error;
 	int extNx = simulatedRegionLenght;
 	int extNy = simulatedRegionWidth;
 	int extNz = simulatedRegionHeight;
@@ -194,7 +195,7 @@ void PhaseField::initDynamicRegion()
 	dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 	//dim3 dimGrid((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
 	dim3 dimGrid1((extNx + dimBlock.x - 1) / dimBlock.x, (extNy + dimBlock.y - 1) / dimBlock.y, (extNz + dimBlock.z - 1) / dimBlock.z);
-	C_InitDynamicRegion << < dimGrid1, dimBlock >> > (m_SimulationRegion, m_SimulationRegionColor, extNx, extNy, extNz);
+	C_InitDynamicRegion << < dimGrid1, dimBlock >> > (m_cuda_SimulationRegion, m_cuda_SimulationRegionColor, extNx, extNy, extNz);
 	synchronCheck;
 
 
@@ -209,12 +210,14 @@ void PhaseField::initDynamicRegion()
 	C_PhaseChange << <dimGrid, dimBlock >> > (m_cuda_phasefield, m_cuda_color, nx, ny, nz);
 	synchronCheck;
 
+	error = cudaThreadSynchronize();
+
 }
 
 
 
 
-__global__ void C_moveSimulationRegion(float4* moveRegion, int nx, int ny, int nz,int xstep,int ystep)
+__global__ void C_moveSimulationRegion(float4* moveRegion, int nx, int ny, int nz,int dx,int dy)
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 	int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -226,9 +229,9 @@ __global__ void C_moveSimulationRegion(float4* moveRegion, int nx, int ny, int n
 
 		index = i + j*nx + k*nx*ny;
 
-		moveRegion[index].x += xstep*0.05;
+		moveRegion[index].x += dx*0.001;
 		moveRegion[index].y += 0;
-		moveRegion[index].z += ystep*0.05;
+		moveRegion[index].z += dy*0.001;
 		moveRegion[index].w += 0;
 
 	}
@@ -241,11 +244,11 @@ void PhaseField::moveSimulationRegion(int dx,int dy)
 	//int eNz = simulatedRegionHeight;
 	dim3 dimBlock(BLOCK_SIZE, BLOCK_SIZE);
 	dim3 dimGrid((simulatedRegionLenght + dimBlock.x - 1) / dimBlock.x, (simulatedRegionWidth + dimBlock.y - 1) / dimBlock.y, (simulatedRegionHeight + dimBlock.z - 1) / dimBlock.z);
-	C_moveSimulationRegion << < dimGrid, dimBlock >> > (m_SimulationRegion, simulatedRegionLenght, simulatedRegionWidth, simulatedRegionHeight,dx,dy);
+	C_moveSimulationRegion << < dimGrid, dimBlock >> > (m_cuda_SimulationRegion, simulatedRegionLenght, simulatedRegionWidth, simulatedRegionHeight,dx,dy);
 	synchronCheck;
 
-	m_simulatedOriginX += dx;
-	m_simulatedOriginY += dy;
+	//m_simulatedOriginX += dx;
+	//m_simulatedOriginY += dy;
 	cudaGraphicsUnmapResources(1, &SimulationRegion_resource, 0);
 	cudaGraphicsUnmapResources(1, &SimulationRegionColor_resource, 0);
 
@@ -261,20 +264,20 @@ describe:allocate memoery for all variable
 void PhaseField::AllocateMemoery(int _nx, int _ny, int _nz)
 {
 
-	//m_simulatedOriginX = 0;
-	//m_simulatedOriginY = 0;
+	m_simulatedOriginX = 0;
+	m_simulatedOriginY = 0;
 
 	nx = _nx;//计算区域-流体部分
 	ny = _ny;
 	nz = _nz;
-	cudaError_t error;
+
 
 	simulationRegitionSize=simulatedRegionLenght*simulatedRegionWidth*simulatedRegionHeight;
 	simulationSize = nx*ny*nz;
 	//for phasefield equation
 	//仿真区域位置及颜色
-	cudaCheck(cudaMalloc(&m_SimulationRegion, simulationRegitionSize * sizeof(float4)));
-	cudaCheck(cudaMalloc(&m_SimulationRegionColor, simulationRegitionSize * sizeof(rgb)));
+	cudaCheck(cudaMalloc(&m_cuda_SimulationRegion, simulationRegitionSize * sizeof(float4)));
+	cudaCheck(cudaMalloc(&m_cuda_SimulationRegionColor, simulationRegitionSize * sizeof(rgb)));
 
 	cudaCheck(cudaMalloc(&m_cuda_position, simulationSize * sizeof(float4)));
 	cudaCheck(cudaMalloc(&m_cuda_phasefield, simulationSize * sizeof(float)));
@@ -302,14 +305,14 @@ void PhaseField::AllocateMemoery(int _nx, int _ny, int _nz)
 	glBufferData(GL_ARRAY_BUFFER, simulationRegitionSize * sizeof(float4), NULL, GL_DYNAMIC_COPY);
 	cudaGraphicsGLRegisterBuffer(&SimulationRegion_resource, SimulationRegion_bufferObj, cudaGraphicsMapFlagsWriteDiscard);
 	cudaGraphicsMapResources(1, &SimulationRegion_resource, 0);
-	cudaGraphicsResourceGetMappedPointer((void**)&m_SimulationRegion, &size1, SimulationRegion_resource);
+	cudaGraphicsResourceGetMappedPointer((void**)&m_cuda_SimulationRegion, &size1, SimulationRegion_resource);
 
 	glGenBuffers(1, &SimulationRegionColor_bufferObj);
 	glBindBuffer(GL_ARRAY_BUFFER, SimulationRegionColor_bufferObj);
 	glBufferData(GL_ARRAY_BUFFER, simulationRegitionSize * sizeof(rgb), NULL, GL_STATIC_DRAW);
 	cudaGraphicsGLRegisterBuffer(&SimulationRegionColor_resource, SimulationRegionColor_bufferObj, cudaGraphicsMapFlagsWriteDiscard);
 	cudaGraphicsMapResources(1, &SimulationRegionColor_resource, 0);
-	cudaGraphicsResourceGetMappedPointer((void**)&m_SimulationRegionColor, &size1, SimulationRegionColor_resource);
+	cudaGraphicsResourceGetMappedPointer((void**)&m_cuda_SimulationRegionColor, &size1, SimulationRegionColor_resource);
 
 	
 

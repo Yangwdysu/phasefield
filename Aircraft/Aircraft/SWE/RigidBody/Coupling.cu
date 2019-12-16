@@ -318,8 +318,7 @@ void Coupling::animate(float dt)
 		m_trail->moveDynamicRegion(new_x - originX, new_z - originZ);
 		//m_phasefield->moveSimulationRegion(new_x - originX, new_z - originZ);
 	}
-	m_trail->animate(dt);
-	m_trail->resetSource();
+
 	/*
 	date:2019/12/15
 	author:@wdy
@@ -339,7 +338,8 @@ void Coupling::animate(float dt)
 	else
 		m_phasefield->moveSimulationRegion(new_x1 - originX1, new_z1 - originZ1);
 
-	
+	m_trail->animate(dt);
+	m_trail->resetSource();
 	//m_phasefield->animate(dt);//for pahsefield
 	//synchronCheck;
 	

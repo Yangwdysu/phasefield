@@ -57,14 +57,12 @@ public:
 
 	float m_patch_length;
 	float m_realGridSize;			//网格实际距离
-	float m_horizon = 2.0f;			//水面初始高度
-	int m_simulatedRegionWidth;		//动态区域宽度
-	int m_simulatedRegionHeight;	//动态区域高度
+
 
 	float3* m_cuda_Veluc1;
 
-	float4* m_SimulationRegion;     //仿真区域位置
-	rgb* m_SimulationRegionColor;
+	float4* m_cuda_SimulationRegion;     //仿真区域位置
+	rgb* m_cuda_SimulationRegionColor;
 
 	float4* m_cuda_position;		//水体位置
 	rgb* m_cuda_color;
@@ -120,6 +118,9 @@ public:
 	//仿真区域的初始位置
 	int m_simulatedOriginX = 0;			//动态区域初始x坐标
 	int m_simulatedOriginY = 0;			//动态区域初始y坐标
+	float m_horizon = 2.0f;			//水面初始高度
+	//int m_simulatedRegionWidth;		//动态区域宽度
+	//int m_simulatedRegionHeight;	//动态区域高度
 
 	//仿真区域的大小
 	int simulatedRegionLenght;
