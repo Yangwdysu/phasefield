@@ -54,6 +54,9 @@
     <ClInclude Include="RigidBody\sharedmem.h" />
     <ClInclude Include="gl_utilities.h" />
     <ClInclude Include="PhaseField.h" />
+    <ClInclude Include="..\..\..\..\..\资料\PFData.h" />
+    <ClInclude Include="PFDatau.h" />
+    <ClInclude Include="Gridd.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="RigidBody">

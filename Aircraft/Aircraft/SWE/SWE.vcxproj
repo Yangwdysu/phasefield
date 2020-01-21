@@ -189,12 +189,15 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="RigidBody\SurfaceMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\资料\PFData.h" />
     <ClInclude Include="CapillaryWave.h" />
     <ClInclude Include="cuda_helper_math.h" />
     <ClInclude Include="glwindow.h" />
     <ClInclude Include="gl_utilities.h" />
+    <ClInclude Include="Gridd.h" />
     <ClInclude Include="Ocean.h" />
     <ClInclude Include="OceanPatch.h" />
+    <ClInclude Include="PFDatau.h" />
     <ClInclude Include="PhaseField.h" />
     <ClInclude Include="RigidBody\Coupling.h" />
     <ClInclude Include="RigidBody\cuda_utilities.h" />
