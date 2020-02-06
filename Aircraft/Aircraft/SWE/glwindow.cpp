@@ -276,7 +276,7 @@ namespace WetBrush {
 		author:@wdy
 		describe:
 		*/
-		phasefield = new PhaseField(128, 128);
+		phasefield = new PhaseField();
 		phasefield->initialize();
 
 		aircraftCarrier = new Coupling(ocean->getOceanPatch());

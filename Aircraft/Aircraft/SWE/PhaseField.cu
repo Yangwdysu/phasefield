@@ -92,7 +92,7 @@ __global__ void K_CopyFData(float* dst, float* src, int nx, int ny, int nz)
 /*******************************************************************************/
 /***********************************Init_condition******************************/
 /*******************************************************************************/
-PhaseField::PhaseField(int size, float patchLength)
+PhaseField::PhaseField()
 {
 	//m_patch_length = patchLength;
 	//m_realGridSize = patchLength / size;
@@ -143,7 +143,7 @@ __global__ void C_InitDynamicRegion(float4* moveRegion, rgb* color, int nx, int 
 		vij.w = (float)1;
 
 		moveRegion[index] = vij;
-		color[index] = make_uchar4(0, 120, 40, 220);
+		//color[index] = make_uchar4(0, 120, 40, 220);
 		//printf("%f", moveRegion[index].x);
 	}
 }
@@ -363,38 +363,15 @@ void PhaseField::AllocateMemoery(int _nx, int _ny, int _nz)
 	m_cuda_RHS.cudaSetSpace(nx, ny, nz);
 	m_cuda_Pressure.cudaSetSpace(nx, ny, nz);
 	m_cuda_BufPressure.cudaSetSpace(nx, ny, nz);
-	//m_cuda_Veluc1.cudaSetSpace(nx, ny, nz);
 
-	//cudaCheck(cudaMalloc(&m_cuda_Veluc, simulationSize * sizeof(float3)));
-	//cudaCheck(cudaMalloc(&m_cuda_Veluc0, simulationSize * sizeof(float3)));
-	//cudaCheck(cudaMalloc(&m_cuda_CoefMatrix, simulationSize * sizeof(float7)));
-	//cudaCheck(cudaMalloc(&m_cuda_RHS, simulationSize * sizeof(float)));
-	//cudaCheck(cudaMalloc(&m_cuda_Pressure, simulationSize * sizeof(float)));
-	//cudaCheck(cudaMalloc(&m_cuda_BufPressure, simulationSize * sizeof(float)));
-	//cudaCheck(cudaMalloc(&m_cuda_Veluc1, simulationSize * sizeof(float3)));
 	
 
 
 	size_t size;
 
-	//size_t size1 = (nx+1)*ny*nz * sizeof(Grid4f);
-	//size_t size = sizeof(*this->malla)*this->numPoints;
-	//仿真区域位置及颜色
-	//glGenBuffers(1, &SimulationRegion_bufferObj);
-	//glBindBuffer(GL_ARRAY_BUFFER, SimulationRegion_bufferObj);
-	//glBufferData(GL_ARRAY_BUFFER, simulationSize * sizeof(float4), NULL, GL_DYNAMIC_COPY);
-	//cudaGraphicsGLRegisterBuffer(&SimulationRegion_resource, SimulationRegion_bufferObj, cudaGraphicsMapFlagsWriteDiscard);
-	//cudaGraphicsMapResources(1, &SimulationRegion_resource, NULL);
-	//cudaGraphicsResourceGetMappedPointer((void**)&m_cuda_SimulationRegion, &size, SimulationRegion_resource);
-
-	//glGenBuffers(1, &SimulationRegionColor_bufferObj);
-	//glBindBuffer(GL_ARRAY_BUFFER, SimulationRegionColor_bufferObj);
-	//glBufferData(GL_ARRAY_BUFFER, simulationSize * sizeof(uchar4), NULL, GL_STATIC_DRAW);
-	//cudaGraphicsGLRegisterBuffer(&SimulationRegionColor_resource, SimulationRegionColor_bufferObj, cudaGraphicsMapFlagsWriteDiscard);
-	//cudaGraphicsMapResources(1, &SimulationRegionColor_resource, NULL);
-	//cudaGraphicsResourceGetMappedPointer((void**)&m_cuda_SimulationRegionColor, &size, SimulationRegionColor_resource);
-
 	
+
+
 
 	//粒子位置、相场及颜色
 	glGenBuffers(1, &Initpos_bufferObj);
@@ -404,12 +381,6 @@ void PhaseField::AllocateMemoery(int _nx, int _ny, int _nz)
 	cudaGraphicsMapResources(1, &Initpos_resource, 0);
 	cudaGraphicsResourceGetMappedPointer((void**)&m_cuda_position.data, &size, Initpos_resource);
 
-	//glGenBuffers(1, &PhaseField_bufferObj);
-	//glBindBuffer(GL_ARRAY_BUFFER, PhaseField_bufferObj);
-	//glBufferData(GL_ARRAY_BUFFER, simulationSize * sizeof(float), NULL, GL_DYNAMIC_COPY);
-	//cudaGraphicsGLRegisterBuffer(&PhaseField_resource, PhaseField_bufferObj, cudaGraphicsMapFlagsWriteDiscard);
-	//cudaGraphicsMapResources(1, &PhaseField_resource, 0);
-	//cudaGraphicsResourceGetMappedPointer((void**)&m_cuda_phasefield0, &size, PhaseField_resource);
 
 	glGenBuffers(1, &Color_bufferObj);
 	glBindBuffer(GL_ARRAY_BUFFER, Color_bufferObj);
@@ -844,7 +815,7 @@ __global__ void P_ApplyGravityForce(Grid1f Velu, Grid1f Velv, Grid1f Velw, int n
 
 	int index;
 
-	if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 1 && k >= 1 && k < nz - 1)
+	if (i >= 1 && i < nx - 1 && j >= 1 && j < ny - 2 && k >= 1 && k < nz - 1)
 	{
 		index = i + j*nx + k*nx*ny;
 
@@ -1449,40 +1420,40 @@ void PhaseField::NS_solver(float substep)
 	P_ApplyGravityForce << < dimGrid, dimBlock >> > (m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz, substep);
 	cuSynchronize();
 
-	////Interpolation from Boundary to Center
-	//P_InterpolateVelocity << < dimGrid, dimBlock >> > (m_cuda_Veluc0, m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz);
-	//cuSynchronize();
-	////Semi-Lagrangian Advection
-	//P_AdvectionVelocity << < dimGrid, dimBlock >> > (m_cuda_Veluc, m_cuda_Veluc0, nx, ny, nz, substep);
-	//cuSynchronize();
-	////Interpolation from Center to Boundary
-	//P_InterpolatedVelocity << < dimGrid, dimBlock >> > (m_cuda_Veluc, m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz, substep);
-	//cuSynchronize();
+	//Interpolation from Boundary to Center
+	P_InterpolateVelocity << < dimGrid, dimBlock >> > (m_cuda_Veluc0, m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz);
+	cuSynchronize();
+	//Semi-Lagrangian Advection
+	P_AdvectionVelocity << < dimGrid, dimBlock >> > (m_cuda_Veluc, m_cuda_Veluc0, nx, ny, nz, substep);
+	cuSynchronize();
+	//Interpolation from Center to Boundary
+	P_InterpolatedVelocity << < dimGrid, dimBlock >> > (m_cuda_Veluc, m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz, substep);
+	cuSynchronize();
 
-	//dim3 dimGrid_x((ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
-	//P_SetU << < dimGrid_x, dimBlock >> > (m_cuda_Velu, nx, ny, nz);
-	//dim3 dimGrid_y((nx + dimBlock.x - 1) / dimBlock.x, (nz + dimBlock.z - 1) / dimBlock.z);
-	//P_SetV << < dimGrid_y, dimBlock >> > (m_cuda_Velv, nx, ny, nz);
-	//dim3 dimGrid_z((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y);
-	//P_SetW << < dimGrid_z, dimBlock >> > (m_cuda_Velw, nx, ny, nz);
+	dim3 dimGrid_x((ny + dimBlock.y - 1) / dimBlock.y, (nz + dimBlock.z - 1) / dimBlock.z);
+	P_SetU << < dimGrid_x, dimBlock >> > (m_cuda_Velu, nx, ny, nz);
+	dim3 dimGrid_y((nx + dimBlock.x - 1) / dimBlock.x, (nz + dimBlock.z - 1) / dimBlock.z);
+	P_SetV << < dimGrid_y, dimBlock >> > (m_cuda_Velv, nx, ny, nz);
+	dim3 dimGrid_z((nx + dimBlock.x - 1) / dimBlock.x, (ny + dimBlock.y - 1) / dimBlock.y);
+	P_SetW << < dimGrid_z, dimBlock >> > (m_cuda_Velw, nx, ny, nz);
 
-	//P_PrepareForProjection << < dimGrid, dimBlock >> > (m_cuda_CoefMatrix, m_cuda_RHS, m_cuda_phasefield, m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz, substep);
-	//cuSynchronize();
+	P_PrepareForProjection << < dimGrid, dimBlock >> > (m_cuda_CoefMatrix, m_cuda_RHS, m_cuda_phasefield0, m_cuda_Velu, m_cuda_Velv, m_cuda_Velw, nx, ny, nz, substep);
+	cuSynchronize();
 
-	////雅克比迭代求解压力
-	//for (int i = 0; i < 300; i++)
-	//{
-	//	K_CopyGData << < dimGrid, dimBlock >> > (m_cuda_BufPressure, m_cuda_Pressure, nx, ny, nz);
-	//	P_Projection << < dimGrid, dimBlock >> > (m_cuda_Pressure, m_cuda_BufPressure, m_cuda_CoefMatrix, m_cuda_RHS, nx, ny, nz);
-	//	cuSynchronize();
-	//}
+	//雅克比迭代求解压力
+	for (int i = 0; i < 300; i++)
+	{
+		K_CopyGData << < dimGrid, dimBlock >> > (m_cuda_BufPressure, m_cuda_Pressure, nx, ny, nz);
+		P_Projection << < dimGrid, dimBlock >> > (m_cuda_Pressure, m_cuda_BufPressure, m_cuda_CoefMatrix, m_cuda_RHS, nx, ny, nz);
+		cuSynchronize();
+	}
 
-	//P_UpdateVelocity_U << < dimGrid, dimBlock >> > (m_cuda_Velu, m_cuda_Pressure, m_cuda_phasefield, nx, ny, nz, substep);
-	//cuSynchronize();
-	//P_UpdateVelocity_V << < dimGrid, dimBlock >> > (m_cuda_Velv, m_cuda_Pressure, m_cuda_phasefield, nx, ny, nz, substep);
-	//cuSynchronize();
-	//P_UpdateVelocity_W << < dimGrid, dimBlock >> > (m_cuda_Velw, m_cuda_Pressure, m_cuda_phasefield, nx, ny, nz, substep);
-	//cuSynchronize();
+	P_UpdateVelocity_U << < dimGrid, dimBlock >> > (m_cuda_Velu, m_cuda_Pressure, m_cuda_phasefield0, nx, ny, nz, substep);
+	cuSynchronize();
+	P_UpdateVelocity_V << < dimGrid, dimBlock >> > (m_cuda_Velv, m_cuda_Pressure, m_cuda_phasefield0, nx, ny, nz, substep);
+	cuSynchronize();
+	P_UpdateVelocity_W << < dimGrid, dimBlock >> > (m_cuda_Velw, m_cuda_Pressure, m_cuda_phasefield0, nx, ny, nz, substep);
+	cuSynchronize();
 }
 
 

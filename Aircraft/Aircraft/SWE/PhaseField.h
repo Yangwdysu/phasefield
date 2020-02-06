@@ -23,7 +23,7 @@ namespace WetBrush {
 	{
 
 	public:
-		PhaseField(int size, float patchLength);
+		PhaseField();
 		~PhaseField();
 		void initialize();
 		void initRegion();
