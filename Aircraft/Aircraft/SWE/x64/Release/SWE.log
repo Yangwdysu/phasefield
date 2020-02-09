@@ -21,30 +21,26 @@ f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__devic
 F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(12): warning C4005: “EPSILON”: 宏重定义
 F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(33): warning C4005: “M_PI”: 宏重定义
 f:\vs_project\test11\aircraft\aircraft\swe\PhaseField.h(20): warning C4005: “RHO2”: 宏重定义
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(60): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(157): warning : variable "index" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(174): warning : variable "index" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(243): warning : variable "error" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(244): warning : variable "extNx" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(245): warning : variable "extNy" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(246): warning : variable "extNz" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(403): warning : variable "index" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(450): warning : variable "dx" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(451): warning : variable "T" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(536): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(537): warning : variable "index0" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(538): warning : variable "index1" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(816): warning : variable "index" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(841): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(866): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1011): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1335): warning : variable "nk" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1336): warning : variable "nij" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1368): warning : variable "nk" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1369): warning : variable "nij" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1371): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1399): warning : variable "nk" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1400): warning : variable "nij" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(171): warning : variable "index" was set but never used
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(191): warning : variable "index" was set but never used
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(260): warning : variable "error" was set but never used
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(261): warning : variable "extNx" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(262): warning : variable "extNy" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(263): warning : variable "extNz" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(446): warning : variable "dx" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(447): warning : variable "T" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(532): warning : variable "index" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(533): warning : variable "index0" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(534): warning : variable "index1" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(981): warning : variable "index" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1001): warning : variable "index" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1457): warning : variable "nk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1458): warning : variable "nij" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1496): warning : variable "nk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1497): warning : variable "nij" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1499): warning : variable "index" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1533): warning : variable "nk" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1534): warning : variable "nij" was declared but never referenced
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
@@ -107,7 +103,7 @@ c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functio
   Ocean.cu.obj
   Coupling.cu.obj
   正在生成代码
-  32 of 551 functions ( 5.8%) were compiled, the rest were copied from previous compilation.
+  31 of 551 functions ( 5.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     4 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成

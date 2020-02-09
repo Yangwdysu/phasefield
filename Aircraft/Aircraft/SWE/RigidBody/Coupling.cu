@@ -527,28 +527,28 @@ namespace WetBrush {
 		m_phasefield = wave;
 		m_boat = boat;
 
-		int sizeInBytes = boat->getSamplingPointSize() * sizeof(float3);
-		int sizeInBytesF = boat->getSamplingPointSize() * sizeof(float);
+		//int sizeInBytes = boat->getSamplingPointSize() * sizeof(float3);
+		//int sizeInBytesF = boat->getSamplingPointSize() * sizeof(float);
 
-		m_reduce = Physika::Reduction<float>::Create(boat->getSamplingPointSize());
+		//m_reduce = Physika::Reduction<float>::Create(boat->getSamplingPointSize());
 
-		cudaMalloc(&m_forceX, sizeInBytesF);
-		cudaMalloc(&m_forceY, sizeInBytesF);
-		cudaMalloc(&m_forceZ, sizeInBytesF);
-		cudaMalloc(&m_torqueX, sizeInBytesF);
-		cudaMalloc(&m_torqueY, sizeInBytesF);
-		cudaMalloc(&m_torqueZ, sizeInBytesF);
+		//cudaMalloc(&m_forceX, sizeInBytesF);
+		//cudaMalloc(&m_forceY, sizeInBytesF);
+		//cudaMalloc(&m_forceZ, sizeInBytesF);
+		//cudaMalloc(&m_torqueX, sizeInBytesF);
+		//cudaMalloc(&m_torqueY, sizeInBytesF);
+		//cudaMalloc(&m_torqueZ, sizeInBytesF);
 
-		cudaMalloc(&m_sample_heights, sizeInBytesF);
+		//cudaMalloc(&m_sample_heights, sizeInBytesF);
 
-		glm::vec3 center = boat->getCenter();//0,0,0
+		//glm::vec3 center = boat->getCenter();//0,0,0
 
-		float dg = m_phasefield->getRealGridSize();//512
+		//float dg = m_phasefield->getRealGridSize();//512
 
-		int nx = center.x / dg - m_phasefield->getGridSize() / 2;//getGridSize()=512
-		int ny = center.z / dg - m_phasefield->getGridSize() / 2;
+		//int nx = center.x / dg - m_phasefield->getGridSize() / 2;//getGridSize()=512
+		//int ny = center.z / dg - m_phasefield->getGridSize() / 2;
 
-		m_phasefield->setOriginX(nx);
-		m_phasefield->setOriginY(ny);
+		//m_phasefield->setOriginX(nx);
+		//m_phasefield->setOriginY(ny);
 	}
 }
