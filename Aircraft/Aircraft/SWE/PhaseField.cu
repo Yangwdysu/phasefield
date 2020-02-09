@@ -1157,7 +1157,7 @@ namespace WetBrush {
 	/*
 	2019/10/27
 	author@wdy
-	describe: Set boundary
+	describe: Set boundary...
 	*/
 	__global__ void P_SetU(Grid1f Velu_x, int nx, int ny, int nz)
 	{
