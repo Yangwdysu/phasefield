@@ -339,6 +339,7 @@ float OceanPatch::getChoppiness()
 	return m_choppiness;
 }
 
+//利用菲利普频谱通过IFFT产生海洋高度场H
 void OceanPatch::generateH0(float2* h0)
 {
 	for (unsigned int y = 0; y <= m_size; y++)
@@ -369,7 +370,7 @@ void OceanPatch::generateH0(float2* h0)
 		}
 	}
 }
-
+//菲利普频谱
 float OceanPatch::phillips(float Kx, float Ky, float Vdir, float V, float A, float dir_depend)
 {
 	float k_squared = Kx * Kx + Ky * Ky;

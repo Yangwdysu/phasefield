@@ -9,8 +9,10 @@
 //#include<string.h>
 //#include <stdio.h>
 #include<PFDatau.h>
+#include <glm/glm.hpp>
+#include "RigidBody\RigidBody.h"
 
-
+#include"CapillaryWave.h"
 namespace WetBrush {
 
 	using namespace std;
@@ -19,6 +21,7 @@ namespace WetBrush {
 #define RHO1 1000.0f
 #define RHO2 100.0f
 #define g  -9.81f;
+#define samplingDistance 0.005f
 	class PhaseField
 	{
 
@@ -27,25 +30,23 @@ namespace WetBrush {
 		~PhaseField();
 		void initialize();
 		void initRegion();
-		void moveSimulationRegion(int nx, int ny);
+		void moveDynamicRegion(int nx, int ny, glm::vec3 v);
+
 		void AllocateMemoery(int nx, int ny, int nz);
 		void PF_solver(float dt);
 		void PF_setScalarFieldBoundary( bool postive);
-		void NS_solver(float substep);
+		void NS_solver(float substep, float t);
 		void animate(float dt);
-		float CFL(float max_velu);
 		void display();
-		void updatePosition(float dt);
 
 
+		//for test
+		void setOriginX(int x) { p_simulatedOriginX = x; }
+		void setOriginY(int y) { p_simulatedOriginY = y; }
+		int getGridSize() { return p_simulatedRegionWidth; }
+		float getRealGridSize() { return p_realGridSize; }
 
-		float getRealGridSize() { return m_realGridSize; }
-		void setOriginX(int x) { m_simulatedOriginX = x; }
-		void setOriginY(int y) { m_simulatedOriginY = y; }
-		int getGridSize() { return simulatedRegionLenght; }
-		int getOriginX() { return m_simulatedOriginX; }
-		int getOriginZ() { return m_simulatedOriginY; }
-		//float4* getHeightField() { return m_cuda_position; }
+
 
 	public:
 
@@ -59,17 +60,10 @@ namespace WetBrush {
 		float diff;
 
 
-
-
-
-
 		float4* m_cuda_SimulationRegion;     //仿真区域位置
 		rgb* m_cuda_SimulationRegionColor;
-
 		Grid3f m_cuda_position;		//水体位置
 		rgb* m_cuda_color;
-
-
 		Grid1f m_cuda_phasefield0;
 		Grid1f m_cuda_phasefield;
 		float* max_velu;
@@ -78,12 +72,8 @@ namespace WetBrush {
 		Grid1f m_cuda_Velu;
 		Grid1f m_cuda_Velv;
 		Grid1f m_cuda_Velw;
-
-
 		Grid3f m_cuda_Veluc;
 		Grid3f m_cuda_Veluc0;
-		Grid3f m_cuda_Veluc1;
-
 		GridCoef m_cuda_CoefMatrix;
 		Grid1f m_cuda_RHS;
 		Grid1f m_cuda_Pressure;
@@ -105,39 +95,25 @@ namespace WetBrush {
 			*Initpos_resource,
 			*PhaseField_resource,
 			*SimulationRegionColor_resource,
-			*Color_resource,
-			*Velu_resource,
-			*Velv_resource,
-			*Velw_resource;
+			*Color_resource;
 
 
+		CapillaryWave* mm_trail;
 
 
-		int simItor;
-		float m_patch_length;
-		float m_realGridSize;			//网格实际距离
+		int p_simulatedRegionHeight;
+		int p_simulatedRegionWidth;
 
-		//计算区域/流体部分
+
+		int p_simulatedOriginX = 0;			//动态区域初始x坐标
+		int p_simulatedOriginY = 0;			//动态区域初始y坐标
+		int p_realGridSize;
+
+
 		int nx;
 		int ny;
 		int nz;
-		int sizem;
-
-
-		//仿真区域的初始位置
-		int m_simulatedOriginX = 0;			//动态区域初始x坐标
-		int m_simulatedOriginY = 0;			//动态区域初始y坐标
-		float m_horizon = 2.0f;			//水面初始高度
-		//int m_simulatedRegionWidth;		//动态区域宽度
-		//int m_simulatedRegionHeight;	//动态区域高度
-
-		//仿真区域的大小
-		int simulatedRegionLenght;
-		int simulatedRegionWidth;
-		int simulatedRegionHeight;
-
-		int simulationRegitionSize;
-		int simulationSize;
+		int dSize;
 
 	};
 }

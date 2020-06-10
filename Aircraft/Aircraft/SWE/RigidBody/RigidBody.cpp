@@ -79,6 +79,7 @@ namespace WetBrush {
 		}
 
 		m_numOfSamples = samples.size();
+		//cout << m_numOfSamples << endl;
 
 		int sizeInBytes = m_numOfSamples * sizeof(float3);
 		cudaMalloc(&m_deviceSamples, sizeInBytes);

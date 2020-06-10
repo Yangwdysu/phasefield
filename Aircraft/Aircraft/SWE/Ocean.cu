@@ -40,6 +40,9 @@ namespace WetBrush {
 		m_patch = new OceanPatch(m_fft_size, m_patchSize, m_windType);
 
 		m_realGridSize = m_patch->getGridLength();
+		//cout<< m_fft_size<<"*"<<Nx<<endl;
+
+
 
 	}
 
@@ -246,6 +249,8 @@ namespace WetBrush {
 					c.y = max(0, min(40 + (h_ij) * 500.0f, 255));
 					c.z = max(0, min(100 + (h_ij) * 500.0f, 255));
 					c.w = 255 - max(-50 * h_ij + 50, 0);
+					//c.w = 0.0;
+
 
 					oceanColor[(j + s*patchSize) * oceanWidth + (i + t*patchSize)] = c;
 				}
@@ -286,8 +291,11 @@ namespace WetBrush {
 				float h_ij = heightfield[hf_id].x;
 				vertex o_ij = oceanVertex[ocean_id];
 
-				float value = sin(3.0f*weight*h_ij*0.5f*M_PI);
-				o_ij.y += realSize*value;// 3.0f*weight*realSize*h_ij;
+				//float value = sin(3.0f*weight*h_ij*0.5f*M_PI);
+				float value = sin(weight*h_ij*0.5f*M_PI);
+
+				//o_ij.y += realSize*value;// 3.0f*weight*realSize*h_ij;
+				o_ij.y += realSize*0.5;// 3.0f*weight*realSize*h_ij;     for  test
 
 				oceanVertex[ocean_id] = o_ij;
 			}
@@ -401,6 +409,9 @@ namespace WetBrush {
 	{
 		m_trails.push_back(trail);
 	}
+
+
+
 
 	void Ocean::addOceanTrails(vertex* oceanVertex)
 	{

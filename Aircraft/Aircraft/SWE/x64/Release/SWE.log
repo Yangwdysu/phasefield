@@ -1,6 +1,6 @@
-﻿  Compiling CUDA source file PhaseField.cu...
+﻿  Compiling CUDA source file CapillaryWave.cu...
   
-  F:\vs_project\test11\Aircraft\Aircraft\SWE>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -x cu -rdc=true -I"..\extern\glew-1.12.0\include" -I..\extern\freeglut\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include" -IF:\vs_project\test11\Aircraft\Aircraft\SWE -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -DGLM_FORCE_PURE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc140.pdb /FS /Zi  /MD " -o x64\Release\PhaseField.cu.obj "F:\vs_project\test11\Aircraft\Aircraft\SWE\PhaseField.cu" 
+  F:\vs_project\test11\Aircraft\Aircraft\SWE>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -x cu -rdc=true -I"..\extern\glew-1.12.0\include" -I..\extern\freeglut\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include" -IF:\vs_project\test11\Aircraft\Aircraft\SWE -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include"     --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -DGLM_FORCE_PURE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Fdx64\Release\vc140.pdb /FS /Zi  /MD " -o x64\Release\CapillaryWave.cu.obj "F:\vs_project\test11\Aircraft\Aircraft\SWE\CapillaryWave.cu" 
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
@@ -18,29 +18,8 @@ c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_doubl
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__device_builtin__”: 宏重定义
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(12): warning C4005: “EPSILON”: 宏重定义
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(33): warning C4005: “M_PI”: 宏重定义
-f:\vs_project\test11\aircraft\aircraft\swe\PhaseField.h(20): warning C4005: “RHO2”: 宏重定义
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(171): warning : variable "index" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(191): warning : variable "index" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(260): warning : variable "error" was set but never used
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(261): warning : variable "extNx" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(262): warning : variable "extNy" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(263): warning : variable "extNz" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(446): warning : variable "dx" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(447): warning : variable "T" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(532): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(533): warning : variable "index0" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(534): warning : variable "index1" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(981): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1001): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1457): warning : variable "nk" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1458): warning : variable "nij" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1496): warning : variable "nk" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1497): warning : variable "nij" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1499): warning : variable "index" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1533): warning : variable "nk" was declared but never referenced
-F:/vs_project/test11/Aircraft/Aircraft/SWE/PhaseField.cu(1534): warning : variable "nij" was declared but never referenced
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(85): warning : variable "error" was set but never used
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(485): warning : variable "error" was set but never used
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
@@ -58,15 +37,19 @@ c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\device_doubl
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\sm_20_intrinsics.h(925): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 f:\vs_project\test11\aircraft\aircraft\swe\types.h(6): warning C4005: “__device_builtin__”: 宏重定义
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(12): warning C4005: “EPSILON”: 宏重定义
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(33): warning C4005: “M_PI”: 宏重定义
-f:\vs_project\test11\aircraft\aircraft\swe\PhaseField.h(20): warning C4005: “RHO2”: 宏重定义
-  PhaseField.cu
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(361): warning : a __constant__ variable "WetBrush::GRAVITY" cannot be directly read in a host function
+  CapillaryWave.cu
 f:\vs_project\test11\aircraft\aircraft\swe\OceanPatch.h(35): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(95): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(96): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-F:\vs_project\test11\Aircraft\Aircraft\SWE\PFDatau.h(97): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
-f:\vs_project\test11\aircraft\aircraft\swe\CapillaryWave.h(34): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+f:\vs_project\test11\aircraft\aircraft\swe\CapillaryWave.h(35): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(107): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(111): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(202): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(287): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(342): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(343): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(356): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(504): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+F:/vs_project/test11/Aircraft/Aircraft/SWE/CapillaryWave.cu(509): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(831): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functions.h(1769): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
@@ -103,9 +86,9 @@ c:\program files\nvidia gpu computing toolkit\cuda\v9.2\include\crt\math_functio
   Ocean.cu.obj
   Coupling.cu.obj
   正在生成代码
-  33 of 551 functions ( 6.0%) were compiled, the rest were copied from previous compilation.
+  32 of 551 functions ( 5.8%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+    9 functions had inline decision re-evaluated but remain unchanged
   已完成代码的生成
   SWE.vcxproj -> F:\vs_project\test11\Aircraft\Aircraft\x64\Release\SWE.exe
   SWE.vcxproj -> F:\vs_project\test11\Aircraft\Aircraft\x64\Release\SWE.pdb (Full PDB)

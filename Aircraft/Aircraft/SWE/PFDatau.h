@@ -151,6 +151,8 @@ namespace WetBrush {
 
 		__host__ __device__ inline int Size() { return elementCount; }
 
+
+
 		/*
 		* Only swap the pointer
 		*/
@@ -203,8 +205,8 @@ namespace WetBrush {
 	{
 		//lame	parameters
 		float	gamma;
-		float	h;
-		float	dt;
+		//float	h;
+		//float	dt;
 	};
 
 	typedef Grid<float>	Grid1f;

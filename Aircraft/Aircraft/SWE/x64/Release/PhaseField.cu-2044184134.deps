@@ -657,8 +657,96 @@ C:\Program Files (x86)\Windows Kits\8.1\Include\um\imm.h
 C:\Program Files (x86)\Windows Kits\8.1\Include\um\ime_cmodes.h
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\assert.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include\vector_types.h
+F:\vs_project\test11\Aircraft\Aircraft\SWE\glm/glm.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/_fixes.hpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cassert
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\assert.h
+f:\vs_project\test11\aircraft\aircraft\swe\glm\fwd.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_int.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\setup.hpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cassert
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\assert.h
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../simd/platform.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include\cuda.h
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_float.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_vec.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\precision.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\vec2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_vec2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_vec2.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\vec3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_vec3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_vec3.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\vec4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_vec4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_vec4.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\mat2x2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat2x2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat2x2.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_matrix.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat2x3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat2x3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat2x3.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat2x4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat2x4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat2x4.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat3x2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat3x2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat3x2.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat3x3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat3x3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat3x3.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat3x4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat3x4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat3x4.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat4x2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat4x2.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat4x2.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat4x3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat4x3.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat4x3.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../mat4x4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/type_mat4x4.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_mat4x4.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_matrix.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\../geometric.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/func_geometric.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_geometric.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_exponential.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_vec1.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_vec1.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_exponential.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_vector_relational.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_vector_relational.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\_vectorize.hpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cassert
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\assert.h
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_common.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\_fixes.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_common.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\trigonometric.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/func_trigonometric.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_trigonometric.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\exponential.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\common.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\packing.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/func_packing.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_packing.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_half.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\type_half.inl
+f:\vs_project\test11\aircraft\aircraft\swe\glm\matrix.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\vector_relational.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\integer.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail/func_integer.hpp
+f:\vs_project\test11\aircraft\aircraft\swe\glm\detail\func_integer.inl
+f:\vs_project\test11\aircraft\aircraft\swe\RigidBody\RigidBody.h
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\quaternion.h
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\math.h
+f:\vs_project\test11\aircraft\aircraft\swe\rigidbody\SurfaceMesh.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include\cuda_runtime.h
+f:\vs_project\test11\aircraft\aircraft\swe\CapillaryWave.h
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include\cuda_runtime.h
 f:\vs_project\test11\aircraft\aircraft\swe\Ocean.h
 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include\cuda_runtime.h
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\math.h
-f:\vs_project\test11\aircraft\aircraft\swe\CapillaryWave.h
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include\cuda_runtime.h

@@ -8,6 +8,8 @@
 #include <math.h>
 #include <iostream>
 #include "stdio.h"
+
+#include"PhaseField.h"
 namespace WetBrush {
 #define BLOCKSIZE_X 16
 #define BLOCKSIZE_Y 16
@@ -71,7 +73,7 @@ namespace WetBrush {
 		{
 			i = gridSize - 2;
 			fx = 1.0f;
-		}
+		}  
 		if (j == gridSize - 1)
 		{
 			j = gridSize - 2;
@@ -301,6 +303,7 @@ namespace WetBrush {
 		int new_x = floor(center.x / dg) - gridSize / 2;
 		int new_z = floor(center.z / dg) - gridSize / 2;
 
+		glm::vec3 v = m_boat->getVelocity();
 	// 	auto lc = getLocalBoatCenter();
 	// 	std::cout << "Center: " << lc.x << " " << lc.y << std::endl;
 
@@ -311,13 +314,13 @@ namespace WetBrush {
 		{
 			m_trail->setOriginX(new_x);
 			m_trail->setOriginY(new_z);
-			//m_phasefield->setOriginX(new_x);
-			//m_phasefield->setOriginY(new_z);
+			m_phasefield->setOriginX(new_x);
+			m_phasefield->setOriginY(new_z);
 		}
 		else
 		{
 			m_trail->moveDynamicRegion(new_x - originX, new_z - originZ);
-			//m_phasefield->moveSimulationRegion(new_x - originX, new_z - originZ);
+			m_phasefield->moveDynamicRegion(new_x - originX, new_z - originZ, v); //for test
 		}
 
 		/*
@@ -341,10 +344,10 @@ namespace WetBrush {
 
 		m_trail->animate(dt);
 		m_trail->resetSource();
-		m_phasefield->animate(dt);//for pahsefield
+		m_phasefield->animate(0.0005);//for pahsefield
 		//synchronCheck;
 
-		glm::vec3 v = m_boat->getVelocity();
+
 
 		// 	glm::vec3 an = m_boat->getAngularVelocity();
 		// 	std::cout << m_name << " velocity: " << v.x << " " << v.z << std::endl;
@@ -527,28 +530,30 @@ namespace WetBrush {
 		m_phasefield = wave;
 		m_boat = boat;
 
-		//int sizeInBytes = boat->getSamplingPointSize() * sizeof(float3);
-		//int sizeInBytesF = boat->getSamplingPointSize() * sizeof(float);
+		int sizeInBytes = boat->getSamplingPointSize() * sizeof(float3);
+		int sizeInBytesF = boat->getSamplingPointSize() * sizeof(float);
 
-		//m_reduce = Physika::Reduction<float>::Create(boat->getSamplingPointSize());
+		m_reduce = Physika::Reduction<float>::Create(boat->getSamplingPointSize());
 
-		//cudaMalloc(&m_forceX, sizeInBytesF);
-		//cudaMalloc(&m_forceY, sizeInBytesF);
-		//cudaMalloc(&m_forceZ, sizeInBytesF);
-		//cudaMalloc(&m_torqueX, sizeInBytesF);
-		//cudaMalloc(&m_torqueY, sizeInBytesF);
-		//cudaMalloc(&m_torqueZ, sizeInBytesF);
+		cudaMalloc(&m_forceX, sizeInBytesF);
+		cudaMalloc(&m_forceY, sizeInBytesF);
+		cudaMalloc(&m_forceZ, sizeInBytesF);
+		cudaMalloc(&m_torqueX, sizeInBytesF);
+		cudaMalloc(&m_torqueY, sizeInBytesF);
+		cudaMalloc(&m_torqueZ, sizeInBytesF);
 
-		//cudaMalloc(&m_sample_heights, sizeInBytesF);
+		cudaMalloc(&m_sample_heights, sizeInBytesF);
 
-		//glm::vec3 center = boat->getCenter();//0,0,0
+		glm::vec3 center = boat->getCenter();//0,0,0
 
-		//float dg = m_phasefield->getRealGridSize();//512
+		float dg = m_phasefield->getRealGridSize();//512
+		//float dg = 512;//512
 
-		//int nx = center.x / dg - m_phasefield->getGridSize() / 2;//getGridSize()=512
-		//int ny = center.z / dg - m_phasefield->getGridSize() / 2;
 
-		//m_phasefield->setOriginX(nx);
-		//m_phasefield->setOriginY(ny);
+		int nx = center.x / dg - m_trail->getGridSize() / 2;
+		int ny = center.z / dg - m_trail->getGridSize() / 2;
+
+		m_phasefield->setOriginX(nx);
+		m_phasefield->setOriginY(ny);
 	}
 }

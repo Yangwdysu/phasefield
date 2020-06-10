@@ -34,10 +34,11 @@ namespace WetBrush {
 
 	CapillaryWave::CapillaryWave(int size, float patchLength)
 	{
-		m_patch_length = patchLength;
-		m_realGridSize = patchLength / size;
+		m_patch_length = patchLength;//512
+		m_realGridSize = patchLength / size;//1.0
 
-		m_simulatedRegionWidth = size;
+
+		m_simulatedRegionWidth = size;//512
 		m_simulatedRegionHeight = size;
 
 		m_simulatedOriginX = 0;
@@ -149,6 +150,7 @@ namespace WetBrush {
 		synchronCheck;
 	}
 
+
 	__global__ void C_MoveSimulatedRegion(
 		gridpoint *grid,
 		int width,
@@ -164,16 +166,16 @@ namespace WetBrush {
 		{
 			int gx = i + 1;
 			int gy = j + 1;
-
+		
 			float4 gp = tex2D(g_capillaryTexture, gx, gy);
 			float4 gp_init = make_float4(horizon, 0.0f, 0.0f, gp.w);
 
 			int new_i = i - dx;
 			int new_j = j - dy;
 
-
 			gp = new_i < 0 || new_i >= width ? gp_init : gp;
 			new_i = new_i % width;
+
 			new_i = new_i < 0 ? width + new_i : new_i;
 
 			gp = new_j < 0 || new_j >= height ? gp_init : gp;

@@ -2,6 +2,7 @@
 #include "types.h"
 #include <cuda_runtime.h>
 #include "OceanPatch.h"
+
 namespace WetBrush {
 	class CapillaryWave
 	{
@@ -38,6 +39,7 @@ namespace WetBrush {
 
 		void setOriginX(int x) { m_simulatedOriginX = x; }
 		void setOriginY(int y) { m_simulatedOriginY = y; }
+
 
 		float2 getOrigin() { return make_float2(m_simulatedOriginX*m_realGridSize, m_simulatedOriginY*m_realGridSize); }
 

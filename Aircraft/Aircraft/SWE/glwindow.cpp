@@ -752,7 +752,7 @@ namespace WetBrush {
 		glDepthFunc(GL_LESS);
 		glEnable(GL_DEPTH_TEST);
 		glClearColor(0.0, 0.0, 0.0, 1.0);
-		glPointSize(2.0f);
+		glPointSize(5.0f);
 	}
 
 	void resize(int width, int height)
